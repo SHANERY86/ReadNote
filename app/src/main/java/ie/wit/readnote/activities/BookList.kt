@@ -7,12 +7,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.donationx.adapters.BookAdapter
+import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookListBinding
 import ie.wit.readnote.main.readNoteApp
 import java.util.concurrent.atomic.AtomicInteger
 
-class BookList : AppCompatActivity() {
+class BookList : AppCompatActivity(), BookListener {
 
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
 
@@ -26,7 +27,7 @@ class BookList : AppCompatActivity() {
 
         app = this.application as readNoteApp
         bookListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        bookListLayout.recyclerView.adapter = BookAdapter(app.books.findAll())
+        bookListLayout.recyclerView.adapter = BookAdapter(app.books.findAll(),this)
         super.onCreate(savedInstanceState)
 
     }

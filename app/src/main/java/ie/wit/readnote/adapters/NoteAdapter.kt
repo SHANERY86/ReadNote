@@ -17,8 +17,8 @@ class NoteAdapter constructor(private var notes: List<NoteModel>)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val donation = notes[holder.adapterPosition]
-        holder.bind(donation)
+        val note = notes[holder.adapterPosition]
+        holder.bind(note)
     }
 
     override fun getItemCount(): Int = notes.size

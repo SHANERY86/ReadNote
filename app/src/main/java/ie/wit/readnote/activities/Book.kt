@@ -27,6 +27,8 @@ class Book : AppCompatActivity() {
             book.title = binding.bookTitle.text.toString()
             if(book.title.isNotEmpty()) {
                 app.books.create(book.copy())
+                setResult(RESULT_OK)
+                startActivity(Intent(this, BookList::class.java))
             }
             else {
                 Snackbar

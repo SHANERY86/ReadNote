@@ -11,13 +11,16 @@ import ie.wit.readnote.databinding.ActivityMainBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class Note : AppCompatActivity() {
+    var activitiesLaunched: AtomicInteger = AtomicInteger(0)
     private lateinit var binding : ActivityMainBinding
     lateinit var app : readNoteApp
     var note = NoteModel()
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (activitiesLaunched.incrementAndGet() > 1) { finish(); }
         binding = ActivityMainBinding.inflate(layoutInflater)
         app = application as readNoteApp
         super.onCreate(savedInstanceState)

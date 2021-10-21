@@ -5,18 +5,35 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.BookModel
+import timber.log.Timber
 
 class Book : AppCompatActivity() {
     private lateinit var binding : ActivityBookBinding
     lateinit var app : readNoteApp
+    var book = BookModel()
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityBookBinding.inflate(layoutInflater)
+        app = application as readNoteApp
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_book)
+        setContentView(binding.root)
 
-
+        binding.addBook.setOnClickListener() {
+            Timber.i("Add Book button pressed")
+            book.title = binding.bookTitle.text.toString()
+            if(book.title.isNotEmpty()) {
+                app.books.create(book.copy())
+            }
+            else {
+                Snackbar
+                    .make(it,R.string.snackbar_EmptyBookTitle, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

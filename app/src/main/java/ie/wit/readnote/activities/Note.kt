@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityMainBinding
 import ie.wit.readnote.main.readNoteApp
@@ -25,9 +26,15 @@ class Note : AppCompatActivity() {
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed")
             note.content = binding.addContent.text.toString()
-            app.notes.create(note.copy())
-            setResult(RESULT_OK)
-            startActivity(Intent(this, noteList::class.java))
+            if (note.content.isNotEmpty()) {
+                app.notes.create(note.copy())
+                setResult(RESULT_OK)
+                startActivity(Intent(this, noteList::class.java))
+            } else {
+                Snackbar
+                    .make(it, R.string.snackbar_EmptyNoteContent, Snackbar.LENGTH_LONG)
+                    .show()
+            }
         }
     }
 

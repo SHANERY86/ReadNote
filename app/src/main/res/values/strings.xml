@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ReadNote</string>
+    <string name="note">Enter Note</string>
+    <string name="button_addnote">Add Note</string>
+    <string name="action_note">New Note</string>
+    <string name="action_list">Note List</string>
+    <string name="add_title">Add Title</string>
+    <string name="add_coverImage">Add Cover Image</string>
+    <string name="add_book">Add Book</string>
+    <string name="action_addbook">Add Book</string>
+</resources>

@@ -11,6 +11,7 @@ import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookListBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.BookModel
 import java.util.concurrent.atomic.AtomicInteger
 
 class BookList : AppCompatActivity(), BookListener {
@@ -61,5 +62,10 @@ class BookList : AppCompatActivity(), BookListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBookClick(book: BookModel) {
+        super.onBookClick(book)
+        startActivity(Intent(this, noteList::class.java))
     }
 }

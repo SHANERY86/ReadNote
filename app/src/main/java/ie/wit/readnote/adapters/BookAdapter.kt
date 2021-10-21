@@ -1,15 +1,21 @@
 package ie.wit.donationx.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import ie.wit.readnote.activities.Book
+import ie.wit.readnote.activities.BookList
+import ie.wit.readnote.activities.noteList
 import ie.wit.readnote.databinding.CardBookBinding
 import ie.wit.readnote.models.BookModel
 import timber.log.Timber
 
 interface BookListener {
     fun onBookClick(book: BookModel){
-        Timber.i("Book Clicked")
     }
 }
 
@@ -17,6 +23,8 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
     : RecyclerView.Adapter<BookAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
+
+
         val binding = CardBookBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 

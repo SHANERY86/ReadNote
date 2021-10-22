@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityMainBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
@@ -17,18 +19,25 @@ import java.util.concurrent.atomic.AtomicInteger
 class Note : AppCompatActivity() {
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
     private lateinit var binding : ActivityMainBinding
+    private lateinit var bookIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var note = NoteModel()
+    var bookId : Long = 0L
+    var book = BookModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         if (activitiesLaunched.incrementAndGet() > 1) { finish(); }
         binding = ActivityMainBinding.inflate(layoutInflater)
         app = application as readNoteApp
+        bookId = intent.getLongExtra("bookid",-1)
+        Timber.i("TEST BOOK ID: " + bookId)
+        book = app.books.findById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         binding.addNote.setOnClickListener() {
-            Timber.i("Add Note button pressed")
+            Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
+            note.book = book
             if (note.content.isNotEmpty()) {
                 app.notes.create(note.copy())
                 setResult(RESULT_OK)
@@ -74,3 +83,4 @@ class Note : AppCompatActivity() {
 
 
 }
+

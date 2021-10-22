@@ -12,6 +12,7 @@ import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookListBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 
 class BookList : AppCompatActivity(), BookListener {
@@ -66,6 +67,11 @@ class BookList : AppCompatActivity(), BookListener {
 
     override fun onBookClick(book: BookModel) {
         super.onBookClick(book)
-        startActivity(Intent(this, noteList::class.java))
+        val bookId : Long = book.id
+        Timber.i("TEST BOOKS: " + bookId)
+        val intent: Intent
+        intent = Intent(this,Note::class.java)
+        intent.putExtra("bookid",bookId)
+        startActivity(intent)
     }
 }

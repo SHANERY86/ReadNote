@@ -10,7 +10,8 @@ internal fun getId(): Long {
 
 class NoteMemStore : NoteStore {
 
-    val notes = ArrayList<NoteModel>()
+    var notes = ArrayList<NoteModel>()
+    var book = BookModel()
 
     override fun findAll(): List<NoteModel> {
         return notes
@@ -21,7 +22,9 @@ class NoteMemStore : NoteStore {
         return foundNote
     }
 
-    override fun create(note: NoteModel) {
+    override fun create(book: BookModel, note: NoteModel) {
+        this.book = book
+        this.notes = book.notes
         note.id = getId()
         notes.add(note)
         logAll()
@@ -29,7 +32,7 @@ class NoteMemStore : NoteStore {
 
     fun logAll() {
         Timber.v("** Notes List **")
-        notes.forEach { Timber.v("Donate ${it}") }
+        notes.forEach { Timber.v("Note ${it}") }
     }
 
 }

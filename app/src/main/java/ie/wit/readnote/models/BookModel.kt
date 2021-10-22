@@ -6,4 +6,4 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class BookModel(var id : Long = 0,
                      var title: String = "",
-var notes: List<NoteModel>? = null) : Parcelable
+var notes: ArrayList<NoteModel> = ArrayList()) : Parcelable

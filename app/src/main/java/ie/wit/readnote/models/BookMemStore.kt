@@ -27,9 +27,17 @@ class BookMemStore : BookStore {
         logAll()
     }
 
+    override fun addNote(notes: ArrayList<NoteModel>, note: NoteModel) {
+        notes.add(note)
+    }
+
+    fun getNotes(book: BookModel) : ArrayList<NoteModel> {
+        return book.notes
+    }
+
     fun logAll() {
         Timber.v("** Books List **")
-        books.forEach { Timber.v("Donate ${it}") }
+        books.forEach { Timber.v("Book ${it}") }
     }
 
 }

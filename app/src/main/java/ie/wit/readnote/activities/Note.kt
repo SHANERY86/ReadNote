@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger
 class Note : AppCompatActivity() {
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
     private lateinit var binding : ActivityMainBinding
-    private lateinit var bookIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var note = NoteModel()
     var bookId : Long = 0L
@@ -29,7 +28,6 @@ class Note : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         app = application as readNoteApp
         bookId = intent.getLongExtra("bookid",-1)
-        Timber.i("TEST BOOK ID: " + bookId)
         book = app.books.findById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -37,9 +35,10 @@ class Note : AppCompatActivity() {
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
-            note.book = book
             if (note.content.isNotEmpty()) {
-                app.notes.create(note.copy())
+                Timber.i("TEST ${note}")
+                app.notes.create(book,note.copy())
+                app.books.logAll()
                 setResult(RESULT_OK)
                 startActivity(Intent(this, noteList::class.java))
             } else {

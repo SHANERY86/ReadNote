@@ -10,6 +10,7 @@ import ie.wit.donationx.adapters.NoteAdapter
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityNoteListBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.BookModel
 import java.util.concurrent.atomic.AtomicInteger
 
 class noteList : AppCompatActivity() {
@@ -18,16 +19,24 @@ class noteList : AppCompatActivity() {
 
     lateinit var app : readNoteApp
     lateinit var noteListLayout : ActivityNoteListBinding
-
+    var bookId : Long = 0L
+    var book = BookModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         if (activitiesLaunched.incrementAndGet() > 1) { finish(); }
         noteListLayout = ActivityNoteListBinding.inflate(layoutInflater)
         setContentView(noteListLayout.root)
-
         app = this.application as readNoteApp
+        bookId = intent.getLongExtra("bookid",-1)
+        book = app.books.findById(bookId)!!
         noteListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        noteListLayout.recyclerView.adapter = NoteAdapter(app.notes.findAll())
+        noteListLayout.recyclerView.adapter = NoteAdapter(app.books.getNotes(book))
         super.onCreate(savedInstanceState)
+
+        noteListLayout.newNote.setOnClickListener {
+            intent = Intent(this,Note::class.java)
+            intent.putExtra("bookid",bookId)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

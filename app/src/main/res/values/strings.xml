@@ -2,6 +2,7 @@
     <string name="app_name">ReadNote</string>
     <string name="note">Enter Note</string>
     <string name="button_addnote">Add Note</string>
+    <string name="button_newnote">New Note</string>
     <string name="action_note">New Note</string>
     <string name="action_notelist">Note List</string>
     <string name="add_title">Add Title</string>

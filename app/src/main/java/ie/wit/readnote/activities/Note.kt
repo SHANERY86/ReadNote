@@ -31,7 +31,6 @@ class Note : AppCompatActivity() {
         book = app.books.findById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
@@ -40,7 +39,9 @@ class Note : AppCompatActivity() {
                 app.notes.create(book,note.copy())
                 app.books.logAll()
                 setResult(RESULT_OK)
-                startActivity(Intent(this, noteList::class.java))
+                intent = Intent(this,noteList::class.java)
+                intent.putExtra("bookid",bookId)
+                startActivity(intent)
             } else {
                 Snackbar
                     .make(it, R.string.snackbar_EmptyNoteContent, Snackbar.LENGTH_LONG)

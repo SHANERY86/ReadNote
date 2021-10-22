@@ -68,9 +68,8 @@ class BookList : AppCompatActivity(), BookListener {
     override fun onBookClick(book: BookModel) {
         super.onBookClick(book)
         val bookId : Long = book.id
-        Timber.i("TEST BOOKS: " + bookId)
         val intent: Intent
-        intent = Intent(this,Note::class.java)
+        intent = Intent(this,noteList::class.java)
         intent.putExtra("bookid",bookId)
         startActivity(intent)
     }

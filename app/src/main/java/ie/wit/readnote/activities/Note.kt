@@ -61,16 +61,8 @@ class Note : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_note -> {
-                startActivity(Intent(this, Note::class.java))
-                true
-            }
             R.id.action_addbook -> {
                 startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_notelist -> {
-                startActivity(Intent(this, noteList::class.java))
                 true
             }
             R.id.action_booklist -> {

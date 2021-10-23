@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.donationx.adapters.BookAdapter
 import ie.wit.donationx.adapters.BookListener
@@ -28,7 +29,7 @@ class BookList : AppCompatActivity(), BookListener {
         setContentView(bookListLayout.root)
 
         app = this.application as readNoteApp
-        bookListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
+        bookListLayout.recyclerView.layoutManager = GridLayoutManager(this,3)
         bookListLayout.recyclerView.adapter = BookAdapter(app.books.findAll(),this)
         super.onCreate(savedInstanceState)
 
@@ -45,16 +46,8 @@ class BookList : AppCompatActivity(), BookListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_note -> {
-                startActivity(Intent(this, Note::class.java))
-                true
-            }
             R.id.action_addbook -> {
                 startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_notelist -> {
-                startActivity(Intent(this, noteList::class.java))
                 true
             }
             R.id.action_booklist -> {

@@ -27,7 +27,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="397dp"
         android:layout_height="584dp"
-        android:layout_below="@id/addNote"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"

@@ -24,7 +24,6 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
 
-
         val binding = CardBookBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 

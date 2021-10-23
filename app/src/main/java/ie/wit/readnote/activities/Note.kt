@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
@@ -31,12 +32,25 @@ class Note : AppCompatActivity() {
         book = app.books.findById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        if(intent.hasExtra("note_edit")){
+            note = intent.extras?.getParcelable("note_edit")!!
+            binding.addContent.setText(note.content)
+            val button: Button = findViewById(R.id.addNote)
+            button.setText(R.string.button_saveNote)
+        }
+
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
             if (note.content.isNotEmpty()) {
                 Timber.i("TEST ${note}")
-                app.notes.create(book,note.copy())
+                if(intent.hasExtra("note_edit")) {
+                    app.notes.update(note)
+                }
+                else {
+                    app.notes.create(book, note.copy())
+                }
                 app.books.logAll()
                 setResult(RESULT_OK)
                 intent = Intent(this,noteList::class.java)

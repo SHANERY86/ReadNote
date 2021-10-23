@@ -31,6 +31,14 @@ class BookMemStore : BookStore {
         notes.add(note)
     }
 
+    override fun update(book: BookModel){
+        var foundBook: BookModel? = books.find { b -> b.id == book.id }
+        if (foundBook != null) {
+            foundBook.title = book.title
+            foundBook.image = book.image
+        }
+    }
+
     fun getNotes(book: BookModel) : ArrayList<NoteModel> {
         return book.notes
     }

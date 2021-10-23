@@ -3,10 +3,14 @@
     <string name="note">Enter Note</string>
     <string name="button_addnote">Add Note</string>
     <string name="button_newnote">New Note</string>
+    <string name="button_editBook">Edit Book Details</string>
+    <string name="button_saveBook">Save Book Details</string>
     <string name="action_note">New Note</string>
+    <string name="button_saveNote">Save Note</string>
     <string name="action_notelist">Note List</string>
     <string name="add_title">Add Title</string>
     <string name="add_coverImage">Add Cover Image</string>
+    <string name="button_changeCover">Change Cover Image</string>
     <string name="add_book">Add Book</string>
     <string name="action_addbook">Add Book</string>
     <string name="snackbar_EmptyNoteContent">Please enter note content</string>

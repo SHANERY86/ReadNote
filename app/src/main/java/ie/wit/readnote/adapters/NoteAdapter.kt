@@ -4,9 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ie.wit.readnote.databinding.CardNoteBinding
+import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
 
-class NoteAdapter constructor(private var notes: List<NoteModel>)
+interface NoteListener {
+    fun onNoteClick(note: NoteModel){
+    }
+}
+
+class NoteAdapter constructor(private var notes: List<NoteModel>, private val listener: NoteListener)
     : RecyclerView.Adapter<NoteAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -18,15 +24,16 @@ class NoteAdapter constructor(private var notes: List<NoteModel>)
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val note = notes[holder.adapterPosition]
-        holder.bind(note)
+        holder.bind(note, listener)
     }
 
     override fun getItemCount(): Int = notes.size
 
     inner class MainHolder(val binding : CardNoteBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: NoteModel) {
+        fun bind(note: NoteModel, listener: NoteListener) {
             binding.noteContent.text = note.content
+            binding.root.setOnClickListener { listener.onNoteClick(note) }
         }
     }
 }

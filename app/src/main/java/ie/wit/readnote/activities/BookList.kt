@@ -33,6 +33,7 @@ class BookList : AppCompatActivity(), BookListener {
         bookListLayout.recyclerView.adapter = BookAdapter(app.books.findAll(),this)
         super.onCreate(savedInstanceState)
 
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

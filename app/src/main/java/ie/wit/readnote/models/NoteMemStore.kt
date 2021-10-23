@@ -30,6 +30,13 @@ class NoteMemStore : NoteStore {
         logAll()
     }
 
+    override fun update(note: NoteModel){
+        var noteFound : NoteModel? = notes.find { n -> n.id == note.id }
+        if (noteFound != null) {
+            noteFound.content = note.content
+        }
+    }
+
     fun logAll() {
         Timber.v("** Notes List **")
         notes.forEach { Timber.v("Note ${it}") }

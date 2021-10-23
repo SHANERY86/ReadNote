@@ -7,16 +7,17 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.donationx.adapters.NoteAdapter
+import ie.wit.donationx.adapters.NoteListener
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityNoteListBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.NoteModel
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 
-class noteList : AppCompatActivity() {
-
+class noteList : AppCompatActivity(), NoteListener {
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
-
     lateinit var app : readNoteApp
     lateinit var noteListLayout : ActivityNoteListBinding
     var bookId : Long = 0L
@@ -29,12 +30,18 @@ class noteList : AppCompatActivity() {
         bookId = intent.getLongExtra("bookid",-1)
         book = app.books.findById(bookId)!!
         noteListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        noteListLayout.recyclerView.adapter = NoteAdapter(app.books.getNotes(book))
+        noteListLayout.recyclerView.adapter = NoteAdapter(app.books.getNotes(book), this)
         super.onCreate(savedInstanceState)
 
         noteListLayout.newNote.setOnClickListener {
             intent = Intent(this,Note::class.java)
             intent.putExtra("bookid",bookId)
+            startActivity(intent)
+        }
+
+        noteListLayout.editBook.setOnClickListener {
+            intent = Intent(this,Book::class.java)
+            intent.putExtra("book_edit",book)
             startActivity(intent)
         }
     }
@@ -60,5 +67,16 @@ class noteList : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onNoteClick(note: NoteModel) {
+        super.onNoteClick(note)
+        val noteToEdit : NoteModel = note
+        Timber.i("TEST ${note}")
+        val intent: Intent
+        intent = Intent(this,Note::class.java)
+        intent.putExtra("note_edit",noteToEdit)
+        intent.putExtra("bookid",book.id)
+        startActivity(intent)
     }
 }

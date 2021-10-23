@@ -8,6 +8,23 @@
     tools:context=".activities.noteList">
 
     <Button
+        android:id="@+id/editBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/button_editBook"
+        android:textSize="16sp"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <Button
         android:id="@+id/newNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +33,7 @@
         android:paddingTop="8dp"
         android:text="@string/button_addnote"
         android:textSize="16sp"
-        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintVertical_bias="0.2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +47,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_bias="2.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
  />

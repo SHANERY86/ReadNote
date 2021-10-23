@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.view.menu.MenuView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.wit.readnote.activities.Book
 import ie.wit.readnote.activities.BookList
 import ie.wit.readnote.activities.noteList
@@ -41,6 +42,7 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
 
         fun bind(book: BookModel, listener: BookListener) {
             binding.bookTitle.text = book.title
+            Picasso.get().load(book.image).resize(250,325).into(binding.bookCover)
             binding.root.setOnClickListener { listener.onBookClick(book) }
         }
     }

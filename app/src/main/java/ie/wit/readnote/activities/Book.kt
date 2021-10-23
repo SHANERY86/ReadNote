@@ -1,13 +1,16 @@
 package ie.wit.readnote.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookBinding
 import ie.wit.readnote.main.readNoteApp
@@ -26,11 +29,29 @@ class Book : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        if (intent.hasExtra("book_edit")) {
+            book = intent.extras?.getParcelable("book_edit")!!
+            binding.bookTitle.setText(book.title)
+            val button: Button = findViewById(R.id.addBook)
+            button.setText(R.string.button_saveBook)
+            if (book.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.button_changeCover)
+            }
+            Picasso.get()
+                .load(book.image)
+                .into(binding.bookCover)
+        }
+
         binding.addBook.setOnClickListener() {
             Timber.i("Add Book button pressed")
             book.title = binding.bookTitle.text.toString()
             if(book.title.isNotEmpty()) {
-                app.books.create(book.copy())
+                if(intent.hasExtra("book_edit")) {
+                    app.books.update(book)
+                }
+                else {
+                    app.books.create(book.copy())
+                }
                 setResult(RESULT_OK)
                 startActivity(Intent(this, BookList::class.java))
             }
@@ -79,6 +100,10 @@ class Book : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
+                            book.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(book.image)
+                                .into(binding.bookCover)
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }

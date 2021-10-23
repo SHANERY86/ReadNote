@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityBookBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import org.wit.placemark.helpers.showImagePicker
 import timber.log.Timber
 
 class Book : AppCompatActivity() {
     private lateinit var binding : ActivityBookBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var book = BookModel()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +40,12 @@ class Book : AppCompatActivity() {
                     .show()
             }
         }
+
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+
+        registerImagePickerCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -59,5 +69,20 @@ class Book : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Result ${result.data!!.data}")
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }

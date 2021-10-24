@@ -43,8 +43,9 @@ class Note : AppCompatActivity() {
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
+            val pageNo = binding.addPageNumber.text.toString().toInt()
+            note.pageNumber = applicationContext.getString(R.string.pageNo_OnScreen,pageNo)
             if (note.content.isNotEmpty()) {
-                Timber.i("TEST ${note}")
                 if(intent.hasExtra("note_edit")) {
                     app.notes.update(note)
                 }

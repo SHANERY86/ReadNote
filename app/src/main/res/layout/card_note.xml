@@ -14,12 +14,22 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="121dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            tools:text="pg No" />
+
+        <TextView
             android:id="@+id/noteContent"
             android:layout_width="121dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="40dp"
             android:textSize="24sp"
             tools:text="note" />
 

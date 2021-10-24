@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ReadNote</string>
     <string name="note">Enter Note</string>
+    <string name="pageNumber">page No.</string>
+    <string name="pageNo_OnScreen">page %1$d</string>
     <string name="button_addnote">Add Note</string>
     <string name="button_newnote">New Note</string>
     <string name="button_editBook">Edit Book Details</string>

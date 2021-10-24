@@ -72,7 +72,6 @@ class noteList : AppCompatActivity(), NoteListener {
     override fun onNoteClick(note: NoteModel) {
         super.onNoteClick(note)
         val noteToEdit : NoteModel = note
-        Timber.i("TEST ${note}")
         val intent: Intent
         intent = Intent(this,Note::class.java)
         intent.putExtra("note_edit",noteToEdit)

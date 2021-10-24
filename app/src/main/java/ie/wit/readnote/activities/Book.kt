@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +35,8 @@ class Book : AppCompatActivity() {
             binding.bookTitle.setText(book.title)
             val button: Button = findViewById(R.id.addBook)
             button.setText(R.string.button_saveBook)
+            val deleteButton: Button = findViewById(R.id.deleteBook)
+            deleteButton.setVisibility(View.VISIBLE)
             if (book.image != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.button_changeCover)
             }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
@@ -38,13 +40,21 @@ class Note : AppCompatActivity() {
             binding.addContent.setText(note.content)
             val button: Button = findViewById(R.id.addNote)
             button.setText(R.string.button_saveNote)
+            val deleteButton: Button = findViewById(R.id.deleteNote)
+            deleteButton.setVisibility(View.VISIBLE)
         }
 
         binding.addNote.setOnClickListener() {
             Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
-            val pageNo = binding.addPageNumber.text.toString().toInt()
-            note.pageNumber = applicationContext.getString(R.string.pageNo_OnScreen,pageNo)
+            val pageNo = binding.addPageNumber.text.toString()
+            if(pageNo.isNotEmpty()){
+                val pageNoInt = pageNo.toInt()
+                note.pageNumber = applicationContext.getString(R.string.pageNo_OnScreen,pageNoInt)
+/*                setContentView(R.layout.card_note)
+                val pageNoView : TextView = findViewById(R.id.pageNumber)
+                pageNoView.setVisibility(View.VISIBLE) */
+            }
             if (note.content.isNotEmpty()) {
                 if(intent.hasExtra("note_edit")) {
                     app.notes.update(note)

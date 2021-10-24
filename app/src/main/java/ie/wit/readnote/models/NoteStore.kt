@@ -5,4 +5,5 @@ interface NoteStore {
     fun findById(id: Long) : NoteModel?
     fun create(book: BookModel, note: NoteModel)
     fun update(note: NoteModel)
+    fun delete(note: NoteModel)
 }

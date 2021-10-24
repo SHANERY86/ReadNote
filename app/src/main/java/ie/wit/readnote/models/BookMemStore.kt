@@ -39,6 +39,13 @@ class BookMemStore : BookStore {
         }
     }
 
+    override fun delete(book: BookModel){
+        var foundBook: BookModel? = books.find { b -> b.id == book.id }
+        if (foundBook != null) {
+            books.remove(book)
+        }
+    }
+
     fun getNotes(book: BookModel) : ArrayList<NoteModel> {
         return book.notes
     }

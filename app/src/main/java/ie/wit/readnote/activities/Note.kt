@@ -51,9 +51,6 @@ class Note : AppCompatActivity() {
             if(pageNo.isNotEmpty()){
                 val pageNoInt = pageNo.toInt()
                 note.pageNumber = applicationContext.getString(R.string.pageNo_OnScreen,pageNoInt)
-/*                setContentView(R.layout.card_note)
-                val pageNoView : TextView = findViewById(R.id.pageNumber)
-                pageNoView.setVisibility(View.VISIBLE) */
             }
             if (note.content.isNotEmpty()) {
                 if(intent.hasExtra("note_edit")) {
@@ -63,15 +60,18 @@ class Note : AppCompatActivity() {
                     app.notes.create(book, note.copy())
                 }
                 app.books.logAll()
-                setResult(RESULT_OK)
-                intent = Intent(this,noteList::class.java)
-                intent.putExtra("bookid",bookId)
-                startActivity(intent)
+                startNoteList()
             } else {
                 Snackbar
                     .make(it, R.string.snackbar_EmptyNoteContent, Snackbar.LENGTH_LONG)
                     .show()
             }
+        }
+
+        binding.deleteNote.setOnClickListener() {
+            Timber.i("Delete button pushed")
+            app.notes.delete(note)
+            startNoteList()
         }
     }
 
@@ -96,6 +96,15 @@ class Note : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    }
+
+
+    fun startNoteList(){
+        setResult(RESULT_OK)
+        intent = Intent(this,noteList::class.java)
+        intent.putExtra("bookid",bookId)
+        startActivity(intent)
     }
 
 

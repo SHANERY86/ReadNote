@@ -69,6 +69,12 @@ class Book : AppCompatActivity() {
             showImagePicker(imageIntentLauncher)
         }
 
+        binding.deleteBook.setOnClickListener {
+            app.books.delete(book)
+            setResult(RESULT_OK)
+            startActivity(Intent(this, BookList::class.java))
+        }
+
         registerImagePickerCallback()
     }
 

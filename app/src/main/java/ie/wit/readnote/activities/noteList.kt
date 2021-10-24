@@ -44,6 +44,7 @@ class noteList : AppCompatActivity(), NoteListener {
             intent.putExtra("book_edit",book)
             startActivity(intent)
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

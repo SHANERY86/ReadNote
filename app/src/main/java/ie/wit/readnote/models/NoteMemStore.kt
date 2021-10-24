@@ -37,6 +37,13 @@ class NoteMemStore : NoteStore {
         }
     }
 
+    override fun delete(note: NoteModel){
+        var noteFound : NoteModel? = notes.find { n -> n.id == note.id }
+        if (noteFound != null) {
+            notes.remove(noteFound)
+        }
+    }
+
     fun logAll() {
         Timber.v("** Notes List **")
         notes.forEach { Timber.v("Note ${it}") }

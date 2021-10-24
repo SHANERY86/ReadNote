@@ -42,7 +42,7 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
 
         fun bind(book: BookModel, listener: BookListener) {
             binding.bookTitle.text = book.title
-            Picasso.get().load(book.image).resize(250,325).into(binding.bookCover)
+            Picasso.get().load(book.image).fit().into(binding.bookCover)
             binding.root.setOnClickListener { listener.onBookClick(book) }
         }
     }

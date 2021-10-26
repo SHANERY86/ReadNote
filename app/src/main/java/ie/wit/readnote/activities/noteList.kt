@@ -41,7 +41,7 @@ class noteList : AppCompatActivity(), NoteListener {
 
         noteListLayout.editBook.setOnClickListener {
             intent = Intent(this,Book::class.java)
-            intent.putExtra("book_edit",book)
+            intent.putExtra("bookid",book.id)
             startActivity(intent)
         }
 

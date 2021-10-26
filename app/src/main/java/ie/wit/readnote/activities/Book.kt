@@ -30,8 +30,9 @@ class Book : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        if (intent.hasExtra("book_edit")) {
-            book = intent.extras?.getParcelable("book_edit")!!
+        if (intent.hasExtra("bookid")) {
+            val bookid = intent.getLongExtra("bookid",-1)
+            book = app.books.findById(bookid)!!
             binding.bookTitle.setText(book.title)
             val button: Button = findViewById(R.id.addBook)
             button.setText(R.string.button_saveBook)

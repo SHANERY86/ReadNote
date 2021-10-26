@@ -45,7 +45,6 @@ class Note : AppCompatActivity() {
         }
 
         binding.addNote.setOnClickListener() {
-            Timber.i("Add Note button pressed for " + book.title)
             note.content = binding.addContent.text.toString()
             val pageNo = binding.addPageNumber.text.toString()
             if(pageNo.isNotEmpty()){
@@ -54,12 +53,11 @@ class Note : AppCompatActivity() {
             }
             if (note.content.isNotEmpty()) {
                 if(intent.hasExtra("note_edit")) {
-                    app.notes.update(note)
+                    app.books.updateNote(book, note)
                 }
                 else {
-                    app.notes.create(book, note.copy())
+                    app.books.createNote(book, note.copy())
                 }
-                app.books.logAll()
                 startNoteList()
             } else {
                 Snackbar
@@ -70,7 +68,7 @@ class Note : AppCompatActivity() {
 
         binding.deleteNote.setOnClickListener() {
             Timber.i("Delete button pushed")
-            app.notes.delete(note)
+            app.books.deleteNote(book, note)
             startNoteList()
         }
     }

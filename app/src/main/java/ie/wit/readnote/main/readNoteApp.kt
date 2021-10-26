@@ -1,18 +1,19 @@
 package ie.wit.readnote.main
 
 import android.app.Application
-import ie.wit.readnote.models.BookMemStore
-import ie.wit.readnote.models.NoteMemStore
-import ie.wit.readnote.models.NoteStore
+import ie.wit.readnote.models.*
 import timber.log.Timber
 
 class readNoteApp : Application() {
 
-    val notes = NoteMemStore()
-    val books = BookMemStore()
+    lateinit var books : BookJSONStore
+
+//    val books = BookMemStore()
+
 
     override fun onCreate() {
         super.onCreate()
+        books = BookJSONStore(applicationContext)
         Timber.plant(Timber.DebugTree())
         Timber.i("Starting ReadNote Application")
     }

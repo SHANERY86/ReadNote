@@ -31,7 +31,7 @@ class Note : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         app = application as readNoteApp
         bookId = intent.getLongExtra("bookid",-1)
-        book = app.books.findById(bookId)!!
+        book = app.data.findBookById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.pagePicker.maxValue = 1000
@@ -58,10 +58,10 @@ class Note : AppCompatActivity() {
             }
             if (note.content.isNotEmpty()) {
                 if(intent.hasExtra("note_edit")) {
-                    app.books.updateNote(book, note)
+                    app.data.updateNote(book, note)
                 }
                 else {
-                    app.books.createNote(book, note.copy())
+                    app.data.createNote(book, note.copy())
                 }
                 startNoteList()
             } else {
@@ -73,7 +73,7 @@ class Note : AppCompatActivity() {
 
         binding.deleteNote.setOnClickListener() {
             Timber.i("Delete button pushed")
-            app.books.deleteNote(book, note)
+            app.data.deleteNote(book, note)
             startNoteList()
         }
     }

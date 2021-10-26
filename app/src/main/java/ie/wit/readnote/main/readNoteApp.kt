@@ -6,14 +6,14 @@ import timber.log.Timber
 
 class readNoteApp : Application() {
 
-    lateinit var books : BookJSONStore
+    lateinit var data : DataJSONStore
 
 //    val books = BookMemStore()
 
 
     override fun onCreate() {
         super.onCreate()
-        books = BookJSONStore(applicationContext)
+        data = DataJSONStore(applicationContext)
         Timber.plant(Timber.DebugTree())
         Timber.i("Starting ReadNote Application")
     }

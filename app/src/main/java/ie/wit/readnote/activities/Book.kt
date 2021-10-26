@@ -32,7 +32,7 @@ class Book : AppCompatActivity() {
 
         if (intent.hasExtra("bookid")) {
             val bookid = intent.getLongExtra("bookid",-1)
-            book = app.books.findById(bookid)!!
+            book = app.data.findBookById(bookid)!!
             binding.bookTitle.setText(book.title)
             val button: Button = findViewById(R.id.addBook)
             button.setText(R.string.button_saveBook)
@@ -51,10 +51,10 @@ class Book : AppCompatActivity() {
             book.title = binding.bookTitle.text.toString()
             if(book.title.isNotEmpty()) {
                 if(intent.hasExtra("book_edit")) {
-                    app.books.update(book)
+                    app.data.updateBook(book)
                 }
                 else {
-                    app.books.create(book.copy())
+                    app.data.createBook(book.copy())
                 }
                 setResult(RESULT_OK)
                 startActivity(Intent(this, BookList::class.java))
@@ -71,7 +71,7 @@ class Book : AppCompatActivity() {
         }
 
         binding.deleteBook.setOnClickListener {
-            app.books.delete(book)
+            app.data.deleteBook(book)
             setResult(RESULT_OK)
             startActivity(Intent(this, BookList::class.java))
         }

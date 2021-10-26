@@ -20,4 +20,8 @@
     <string name="snackbar_EmptyNoteContent">Please enter note content</string>
     <string name="snackbar_EmptyBookTitle">Please enter a book title</string>
     <string name="action_booklist">Book List</string>
+    <string name="button_login">Login</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
 </resources>

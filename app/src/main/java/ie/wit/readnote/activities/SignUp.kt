@@ -5,34 +5,31 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import ie.wit.donationx.adapters.BookAdapter
-import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R
-import ie.wit.readnote.databinding.ActivityBookListBinding
+import ie.wit.readnote.databinding.ActivitySignUpBinding
 import ie.wit.readnote.main.readNoteApp
-import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.UserModel
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicInteger
+import timber.log.Timber.i
 
-class BookList : AppCompatActivity(), BookListener {
-
-    var activitiesLaunched: AtomicInteger = AtomicInteger(0)
-
+class SignUp : AppCompatActivity() {
+    private lateinit var signUpLayout : ActivitySignUpBinding
     lateinit var app : readNoteApp
-    lateinit var bookListLayout : ActivityBookListBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (activitiesLaunched.incrementAndGet() > 1) { finish(); }
-        bookListLayout = ActivityBookListBinding.inflate(layoutInflater)
-        setContentView(bookListLayout.root)
-
-        app = this.application as readNoteApp
-        bookListLayout.recyclerView.layoutManager = GridLayoutManager(this,3)
-        bookListLayout.recyclerView.adapter = BookAdapter(app.data.findAllBooks(),this)
         super.onCreate(savedInstanceState)
+        signUpLayout = ActivitySignUpBinding.inflate(layoutInflater)
+        app = application as readNoteApp
+        setContentView(signUpLayout.root)
 
+        signUpLayout.SignUp.setOnClickListener {
+            Timber.i("SIGN UP")
+            var user = UserModel()
+            user.userName = signUpLayout.userName.text.toString()
+            user.password = signUpLayout.password.text.toString()
+            app.data.createUser(user)
+            i("USER CREATED $user")
+            app.data.logAllUsers()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,14 +53,6 @@ class BookList : AppCompatActivity(), BookListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
 
-    override fun onBookClick(book: BookModel) {
-        super.onBookClick(book)
-        val bookId : Long = book.id
-        val intent: Intent
-        intent = Intent(this,noteList::class.java)
-        intent.putExtra("bookid",bookId)
-        startActivity(intent)
     }
 }

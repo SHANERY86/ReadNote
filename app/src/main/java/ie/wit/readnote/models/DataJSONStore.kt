@@ -13,42 +13,44 @@ import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val BOOKS_JSON_FILE = "books.json"
-val BookGsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
-    .registerTypeAdapter(Uri::class.java, BookUriParser())
+const val JSON_FILE = "data.json"
+val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
+    .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
-val BookListType: Type = object : TypeToken<ArrayList<BookModel>>() {}.type
+val bookListType: Type = object : TypeToken<ArrayList<BookModel>>() {}.type
+val userListType: Type = object : TypeToken<ArrayList<UserModel>>() {}.type
 
-fun bookGenerateRandomId(): Long {
+fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
-class BookJSONStore(private val context: Context) : BookStore {
+class DataJSONStore(private val context: Context) : BookStore, UserStore {
 
     var books = mutableListOf<BookModel>()
+    var users = mutableListOf<UserModel>()
 
     init {
-        if (exists(context, BOOKS_JSON_FILE))
+        if (exists(context, JSON_FILE))
             deserialize()
     }
 
-    override fun findAll(): List<BookModel> {
-        logAll()
+    override fun findAllBooks(): List<BookModel> {
+        logAllBooks()
         return books
     }
 
-    override fun findById(id: Long): BookModel? {
+    override fun findBookById(id: Long): BookModel? {
         val foundBook = books.find { b -> b.id == id }
         return foundBook
     }
 
-    override fun create(book: BookModel) {
-        book.id = bookGenerateRandomId()
+    override fun createBook(book: BookModel) {
+        book.id = generateRandomId()
         books.add(book)
         serialize()
     }
 
-    override fun update(book: BookModel) {
+    override fun updateBook(book: BookModel) {
         val foundBook: BookModel? = books.find { b -> b.id == book.id }
         if (foundBook != null) {
             foundBook.title = book.title
@@ -57,7 +59,7 @@ class BookJSONStore(private val context: Context) : BookStore {
         serialize()
     }
 
-    override fun delete(book: BookModel) {
+    override fun deleteBook(book: BookModel) {
         val foundBook: BookModel? = books.find { b -> b.id == book.id }
         if (foundBook != null) {
             books.remove(book)
@@ -66,7 +68,7 @@ class BookJSONStore(private val context: Context) : BookStore {
     }
 
     override fun createNote(book: BookModel, note: NoteModel) {
-        note.id = bookGenerateRandomId()
+        note.id = generateRandomId()
         val notes = book.notes
         notes.add(note)
         serialize()
@@ -84,33 +86,57 @@ class BookJSONStore(private val context: Context) : BookStore {
         val notes = book.notes
         val noteToDeleteId = note.id
         val noteToDelete = notes.find { n -> n.id == noteToDeleteId }
-        i("TEST NOTE DELETE: ${noteToDelete}")
         notes.remove(noteToDelete)
         serialize()
     }
 
     private fun serialize() {
-        val jsonString = BookGsonBuilder.toJson(books, BookListType)
-        write(context, BOOKS_JSON_FILE, jsonString)
+        val bookJsonString = gsonBuilder.toJson(books, bookListType)
+        val usersJsonString = gsonBuilder.toJson(users, userListType)
+        val totalJsonString = "{ \"books\": $bookJsonString,\"users\": $usersJsonString }"
+        write(context, JSON_FILE, totalJsonString)
     }
 
     private fun deserialize() {
-        val jsonString = read(context, BOOKS_JSON_FILE)
-        books = BookGsonBuilder.fromJson(jsonString, BookListType)
+        val jsonString = read(context, JSON_FILE)
+        books = gsonBuilder.fromJson(jsonString, bookListType)
+        users = gsonBuilder.fromJson(jsonString,userListType)
     }
 
-    private fun logAll() {
+    fun logAllBooks() {
         books.forEach { Timber.i("$it")}
+    }
+
+    fun logAllUsers() {
+        users.forEach { i("$it" )}
     }
 
     override fun getNotes(book: BookModel) : ArrayList<NoteModel> {
         return book.notes
     }
 
+    override fun findUserById(id: Long): UserModel? {
+        TODO("Not yet implemented")
+    }
+
+    override fun createUser(user: UserModel) {
+        user.id = generateRandomId()
+        users.add(user)
+        serialize()
+    }
+
+    override fun updateUser(user: UserModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteUser(user: UserModel) {
+        TODO("Not yet implemented")
+    }
+
 }
 
 
-class BookUriParser : JsonDeserializer<Uri>, JsonSerializer<Uri> {
+class UriParser : JsonDeserializer<Uri>, JsonSerializer<Uri> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,

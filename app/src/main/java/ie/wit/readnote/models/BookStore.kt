@@ -1,11 +1,11 @@
 package ie.wit.readnote.models
 
 interface BookStore {
-    fun findAll() : List<BookModel>
-    fun findById(id: Long) : BookModel?
-    fun create(book: BookModel)
-    fun update(book: BookModel)
-    fun delete(book: BookModel)
+    fun findAllBooks() : List<BookModel>
+    fun findBookById(id: Long) : BookModel?
+    fun createBook(book: BookModel)
+    fun updateBook(book: BookModel)
+    fun deleteBook(book: BookModel)
     fun createNote(book: BookModel, note: NoteModel)
     fun updateNote(book: BookModel, note: NoteModel)
     fun deleteNote(book: BookModel, note: NoteModel)

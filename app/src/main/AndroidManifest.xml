@@ -11,8 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReadNote">
         <activity
-            android:name=".activities.BookList"
-            android:exported="true" >
+            android:name=".activities.SignUp"
+            android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +20,15 @@
         </intent-filter>
         </activity>
         <activity
+            android:name=".activities.BookList"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".activities.Book"
             android:exported="true" />
         <activity
             android:name=".activities.noteList"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".activities.Note"
             android:exported="true" />

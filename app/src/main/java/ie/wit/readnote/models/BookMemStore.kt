@@ -12,22 +12,22 @@ class BookMemStore : BookStore {
 
     val books = ArrayList<BookModel>()
 
-    override fun findAll(): List<BookModel> {
+    override fun findAllBooks(): List<BookModel> {
         return books
     }
 
-    override fun findById(id:Long) : BookModel? {
+    override fun findBookById(id:Long) : BookModel? {
         val foundBook: BookModel? = books.find { it.id == id }
         return foundBook
     }
 
-    override fun create(book: BookModel) {
+    override fun createBook(book: BookModel) {
         book.id = getBookId()
         books.add(book)
         logAll()
     }
 
-    override fun update(book: BookModel){
+    override fun updateBook(book: BookModel){
         val foundBook: BookModel? = books.find { b -> b.id == book.id }
         if (foundBook != null) {
             foundBook.title = book.title
@@ -54,7 +54,7 @@ class BookMemStore : BookStore {
         notes.remove(noteToDelete)
     }
 
-    override fun delete(book: BookModel){
+    override fun deleteBook(book: BookModel){
         val foundBook: BookModel? = books.find { b -> b.id == book.id }
         if (foundBook != null) {
             books.remove(book)

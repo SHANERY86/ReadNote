@@ -14,6 +14,7 @@ import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
+import timber.log.Timber.i
 import java.util.concurrent.atomic.AtomicInteger
 
 class noteList : AppCompatActivity(), NoteListener {
@@ -74,6 +75,7 @@ class noteList : AppCompatActivity(), NoteListener {
         super.onNoteClick(note)
         val noteToEdit : NoteModel = note
         val intent: Intent
+        i("TEST NOTE CLICKED: ${note}")
         intent = Intent(this,Note::class.java)
         intent.putExtra("note_edit",noteToEdit)
         intent.putExtra("bookid",book.id)

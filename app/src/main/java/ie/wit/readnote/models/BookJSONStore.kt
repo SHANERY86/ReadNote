@@ -8,6 +8,7 @@ import org.wit.readnote.helpers.exists
 import org.wit.readnote.helpers.read
 import org.wit.readnote.helpers.write
 import timber.log.Timber
+import timber.log.Timber.i
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,6 +66,7 @@ class BookJSONStore(private val context: Context) : BookStore {
     }
 
     override fun createNote(book: BookModel, note: NoteModel) {
+        note.id = bookGenerateRandomId()
         val notes = book.notes
         notes.add(note)
         serialize()
@@ -82,6 +84,7 @@ class BookJSONStore(private val context: Context) : BookStore {
         val notes = book.notes
         val noteToDeleteId = note.id
         val noteToDelete = notes.find { n -> n.id == noteToDeleteId }
+        i("TEST NOTE DELETE: ${noteToDelete}")
         notes.remove(noteToDelete)
         serialize()
     }

@@ -34,6 +34,11 @@ class Note : AppCompatActivity() {
         book = app.books.findById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.pagePicker.maxValue = 1000
+        binding.pagePicker.minValue = 1
+        binding.pagePicker.setOnValueChangedListener { _, _, newVal ->
+            binding.addPageNumber.setText("$newVal")
+        }
 
         if(intent.hasExtra("note_edit")){
             note = intent.extras?.getParcelable("note_edit")!!

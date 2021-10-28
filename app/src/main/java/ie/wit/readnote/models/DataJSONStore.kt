@@ -99,8 +99,11 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
 
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE)
-        books = gsonBuilder.fromJson(jsonString, bookListType)
-        users = gsonBuilder.fromJson(jsonString,userListType)
+        val jsonData : JsonObject = gsonBuilder.fromJson(jsonString, JsonObject::class.java)
+        val booksString = jsonData.getAsJsonArray("books").toString()
+        val usersString = jsonData.getAsJsonArray("users").toString()
+        books = gsonBuilder.fromJson(booksString,bookListType)
+        users = gsonBuilder.fromJson(usersString,userListType)
     }
 
     fun logAllBooks() {
@@ -131,6 +134,10 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
 
     override fun deleteUser(user: UserModel) {
         TODO("Not yet implemented")
+    }
+
+    override fun getAllUsers() : MutableList<UserModel> {
+        return users
     }
 
 }

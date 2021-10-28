@@ -5,4 +5,5 @@ interface UserStore {
     fun createUser(user: UserModel)
     fun updateUser(user: UserModel)
     fun deleteUser(user: UserModel)
+    fun getAllUsers() : MutableList<UserModel>
 }

@@ -19,7 +19,7 @@ class readNoteApp : Application() {
         Timber.i("Starting ReadNote Application")
     }
 
-    public fun setUser(user: UserModel) {
+    fun setUser(user: UserModel) {
         loggedInUser = user
     }
 }

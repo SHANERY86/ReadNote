@@ -50,6 +50,7 @@ class Book : AppCompatActivity() {
         binding.addBook.setOnClickListener() {
             Timber.i("Add Book button pressed")
             book.title = binding.bookTitle.text.toString()
+            book.userId = user.id
             if(book.title.isNotEmpty()) {
                 if(intent.hasExtra("book_edit")) {
                     app.data.updateBook(book)
@@ -97,6 +98,11 @@ class Book : AppCompatActivity() {
             }
             R.id.action_booklist -> {
                 startActivity(Intent(this, BookList::class.java))
+                true
+            }
+            R.id.action_logout -> {
+                app.logOut()
+                startActivity(Intent(this, Login::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

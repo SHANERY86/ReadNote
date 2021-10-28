@@ -31,6 +31,9 @@ class SignUp : AppCompatActivity() {
             i("USER CREATED $user")
             app.setUser(user)
             i("LOGGED IN USER ${app.loggedInUser}")
+            app.setUser(user)
+            setResult(RESULT_OK)
+            startActivity(Intent(this, BookList::class.java))
         }
     }
 

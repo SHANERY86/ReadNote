@@ -34,9 +34,13 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
             deserialize()
     }
 
-    override fun findAllBooks(): List<BookModel> {
-        logAllBooks()
-        return books
+    override fun findUserBooks(user: UserModel): List<BookModel> {
+        var foundBooks = mutableListOf<BookModel>()
+        books.forEach { book -> if (user.id == book.userId) {
+            foundBooks.add(book)
+        }
+        }
+        return foundBooks
     }
 
     override fun findBookById(id: Long): BookModel? {
@@ -75,10 +79,11 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
     }
 
     override fun updateNote(book: BookModel, note: NoteModel) {
-        val notes = book.notes
+       val notes = book.notes
         val updatedNoteId = note.id
         val noteToUpdate = notes.find { n -> n.id == updatedNoteId }
         noteToUpdate?.content = note.content
+        noteToUpdate?.pageNumber = note.pageNumber
         serialize()
     }
 

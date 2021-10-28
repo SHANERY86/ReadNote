@@ -67,6 +67,11 @@ class noteList : AppCompatActivity(), NoteListener {
                 startActivity(Intent(this, BookList::class.java))
                 true
             }
+            R.id.action_logout -> {
+                app.logOut()
+                startActivity(Intent(this, Login::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -22,4 +22,8 @@ class readNoteApp : Application() {
     fun setUser(user: UserModel) {
         loggedInUser = user
     }
+
+    fun logOut() {
+        loggedInUser = UserModel()
+    }
 }

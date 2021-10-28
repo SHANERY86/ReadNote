@@ -43,6 +43,9 @@ class Note : AppCompatActivity() {
         if(intent.hasExtra("note_edit")){
             note = intent.extras?.getParcelable("note_edit")!!
             binding.addContent.setText(note.content)
+            val pageNumber = note.pageNumber.replace("page ","")
+            binding.addPageNumber.setText(pageNumber)
+            binding.pagePicker.setValue(pageNumber.toInt())
             val button: Button = findViewById(R.id.addNote)
             button.setText(R.string.button_saveNote)
             val deleteButton: Button = findViewById(R.id.deleteNote)
@@ -95,6 +98,11 @@ class Note : AppCompatActivity() {
             }
             R.id.action_booklist -> {
                 startActivity(Intent(this, BookList::class.java))
+                true
+            }
+            R.id.action_logout -> {
+                app.logOut()
+                startActivity(Intent(this, Login::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

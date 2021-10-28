@@ -31,7 +31,7 @@ class BookList : AppCompatActivity(), BookListener {
         app = this.application as readNoteApp
         val user = app.loggedInUser
         bookListLayout.recyclerView.layoutManager = GridLayoutManager(this,3)
-        bookListLayout.recyclerView.adapter = BookAdapter(app.data.findAllBooks(),this)
+        bookListLayout.recyclerView.adapter = BookAdapter(app.data.findUserBooks(user),this)
         super.onCreate(savedInstanceState)
 
     }
@@ -53,6 +53,11 @@ class BookList : AppCompatActivity(), BookListener {
             }
             R.id.action_booklist -> {
                 startActivity(Intent(this, BookList::class.java))
+                true
+            }
+            R.id.action_logout -> {
+                app.logOut()
+                startActivity(Intent(this, Login::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

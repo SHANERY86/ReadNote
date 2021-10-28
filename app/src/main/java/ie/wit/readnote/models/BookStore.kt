@@ -1,7 +1,7 @@
 package ie.wit.readnote.models
 
 interface BookStore {
-    fun findAllBooks() : List<BookModel>
+    fun findUserBooks(user: UserModel) : List<BookModel>
     fun findBookById(id: Long) : BookModel?
     fun createBook(userId: Long, book: BookModel)
     fun updateBook(book: BookModel)

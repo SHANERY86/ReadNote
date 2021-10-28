@@ -27,6 +27,7 @@ class Book : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityBookBinding.inflate(layoutInflater)
         app = application as readNoteApp
+        val user = app.loggedInUser
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -54,7 +55,7 @@ class Book : AppCompatActivity() {
                     app.data.updateBook(book)
                 }
                 else {
-                    app.data.createBook(book.copy())
+                    app.data.createBook(user.id, book.copy())
                 }
                 setResult(RESULT_OK)
                 startActivity(Intent(this, BookList::class.java))

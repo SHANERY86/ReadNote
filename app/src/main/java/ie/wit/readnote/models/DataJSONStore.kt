@@ -91,9 +91,9 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
     }
 
     private fun serialize() {
-        val bookJsonString = gsonBuilder.toJson(books, bookListType)
-        val usersJsonString = gsonBuilder.toJson(users, userListType)
-        val totalJsonString = "{ \"books\": $bookJsonString,\"users\": $usersJsonString }"
+        val bookJsonString = if (books.isNotEmpty()) "\"books\": " + gsonBuilder.toJson(books, bookListType) + ", " else ""
+        val usersJsonString = if (users.isNotEmpty()) "\"users\": " + gsonBuilder.toJson(users, userListType) else ""
+        val totalJsonString = "{ $bookJsonString$usersJsonString }"
         write(context, JSON_FILE, totalJsonString)
     }
 

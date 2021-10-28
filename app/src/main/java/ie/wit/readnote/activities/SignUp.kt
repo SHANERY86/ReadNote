@@ -27,8 +27,10 @@ class SignUp : AppCompatActivity() {
             user.userName = signUpLayout.userName.text.toString()
             user.password = signUpLayout.password.text.toString()
             app.data.createUser(user)
+            app.loggedInUser = user
             i("USER CREATED $user")
-            app.data.logAllUsers()
+            app.setUser(user)
+            i("LOGGED IN USER ${app.loggedInUser}")
         }
     }
 

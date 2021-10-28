@@ -29,6 +29,7 @@ class BookList : AppCompatActivity(), BookListener {
         setContentView(bookListLayout.root)
 
         app = this.application as readNoteApp
+        val user = app.loggedInUser
         bookListLayout.recyclerView.layoutManager = GridLayoutManager(this,3)
         bookListLayout.recyclerView.adapter = BookAdapter(app.data.findAllBooks(),this)
         super.onCreate(savedInstanceState)

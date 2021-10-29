@@ -21,6 +21,7 @@
     <string name="snackbar_EmptyBookTitle">Please enter a book title</string>
     <string name="snackbar_EmptyCreds">Please enter username and password</string>
     <string name="snackbar_BadCreds">Incorrect Username or Password</string>
+    <string name="snackbar_UsernameTaken">Username already exists. Please Choose Another</string>
     <string name="action_booklist">Book List</string>
     <string name="action_logout">Log Out</string>
     <string name="button_login">Login</string>

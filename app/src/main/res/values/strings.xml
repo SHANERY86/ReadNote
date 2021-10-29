@@ -31,4 +31,5 @@
     <string name="password">Password</string>
     <string name="action_account">Account</string>
     <string name="button_updateAccount">UPDATE ACCOUNT</string>
+    <string name="title_activity_maps">Maps</string>
 </resources>

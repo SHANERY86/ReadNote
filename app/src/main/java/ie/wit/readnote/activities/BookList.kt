@@ -43,25 +43,7 @@ class BookList : AppCompatActivity(), BookListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_addbook -> {
-                startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_booklist -> {
-                startActivity(Intent(this, BookList::class.java))
-                true
-            }
-            R.id.action_logout -> {
-                app.logOut()
-                startActivity(Intent(this, Login::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return app.getMenuOptions(this,item)
     }
 
     override fun onBookClick(book: BookModel) {

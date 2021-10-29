@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityMainBinding
@@ -16,12 +17,14 @@ import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
+import timber.log.Timber.i
 import java.util.concurrent.atomic.AtomicInteger
 
 
 class Note : AppCompatActivity() {
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
     private lateinit var binding : ActivityMainBinding
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var note = NoteModel()
     var bookId : Long = 0L
@@ -74,11 +77,23 @@ class Note : AppCompatActivity() {
             }
         }
 
+        binding.addLocation.setOnClickListener() {
+            val launcherIntent = Intent(this, Maps::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         binding.deleteNote.setOnClickListener() {
             Timber.i("Delete button pushed")
             app.data.deleteNote(book, note)
             startNoteList()
         }
+        registerMapCallback()
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

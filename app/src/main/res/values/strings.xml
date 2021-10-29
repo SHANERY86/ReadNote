@@ -32,4 +32,6 @@
     <string name="action_account">Account</string>
     <string name="button_updateAccount">UPDATE ACCOUNT</string>
     <string name="title_activity_maps">Maps</string>
+    <string name="button_location">Add Location</string>
+    <string name="title_activity_map">Map</string>
 </resources>

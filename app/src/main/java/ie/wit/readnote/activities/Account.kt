@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityAccountBinding
 import ie.wit.readnote.main.readNoteApp
@@ -26,20 +27,20 @@ class Account : AppCompatActivity() {
             if(userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()){
                 user.userName = userNameEntry
                 user.password = passwordEntry
+                app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
+                Snackbar
+                    .make(it, R.string.snackbar_UpdatedDetails, Snackbar.LENGTH_LONG)
+                    .show()
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return app.getMenuOptions(this,item)
         }
 

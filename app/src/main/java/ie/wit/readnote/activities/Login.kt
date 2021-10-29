@@ -1,19 +1,18 @@
 package ie.wit.readnote.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityLoginBinding
-import ie.wit.readnote.databinding.ActivitySignUpBinding
 import ie.wit.readnote.main.readNoteApp
-import ie.wit.readnote.models.UserModel
+
 
 class Login : AppCompatActivity() {
     private lateinit var LoginLayout : ActivityLoginBinding
     lateinit var app : readNoteApp
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LoginLayout = ActivityLoginBinding.inflate(layoutInflater)
@@ -32,12 +31,14 @@ class Login : AppCompatActivity() {
                 }
                 }
                 if(app.loggedInUser.id == 0L) {
+                    app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                     Snackbar
                         .make(it, R.string.snackbar_BadCreds, Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
             else {
+                app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 Snackbar
                     .make(it, R.string.snackbar_EmptyCreds, Snackbar.LENGTH_LONG)
                     .show()

@@ -23,7 +23,7 @@ class SignUp : AppCompatActivity() {
         setContentView(signUpLayout.root)
 
         signUpLayout.SignUp.setOnClickListener {
-            Timber.i("SIGN UP")
+            i("SIGN UP")
             var user = UserModel()
             var userFound = false
             val userNameEntry = signUpLayout.userName.text.toString()

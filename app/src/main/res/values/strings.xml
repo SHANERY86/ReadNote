@@ -19,5 +19,20 @@
     <string name="action_addbook">Add Book</string>
     <string name="snackbar_EmptyNoteContent">Please enter note content</string>
     <string name="snackbar_EmptyBookTitle">Please enter a book title</string>
+    <string name="snackbar_EmptyCreds">Please enter username and password</string>
+    <string name="snackbar_BadCreds">Incorrect Username or Password</string>
+    <string name="snackbar_UsernameTaken">Username already exists. Please Choose Another</string>
+    <string name="snackbar_UpdatedDetails">Updated your details!</string>
     <string name="action_booklist">Book List</string>
+    <string name="action_logout">Log Out</string>
+    <string name="button_login">Login</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
+    <string name="action_account">Account</string>
+    <string name="button_updateAccount">UPDATE ACCOUNT</string>
+    <string name="title_activity_maps">Maps</string>
+    <string name="button_location">Add Location</string>
+    <string name="title_activity_map">Map</string>
+    <string name="button_locationPresent">See Location</string>
 </resources>

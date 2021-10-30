@@ -29,33 +29,20 @@ class BookList : AppCompatActivity(), BookListener {
         setContentView(bookListLayout.root)
 
         app = this.application as readNoteApp
+        val user = app.loggedInUser
         bookListLayout.recyclerView.layoutManager = GridLayoutManager(this,3)
-        bookListLayout.recyclerView.adapter = BookAdapter(app.books.findAll(),this)
+        bookListLayout.recyclerView.adapter = BookAdapter(app.data.findUserBooks(user),this)
         super.onCreate(savedInstanceState)
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_addbook -> {
-                startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_booklist -> {
-                startActivity(Intent(this, BookList::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return app.getMenuOptions(this,item)
     }
 
     override fun onBookClick(book: BookModel) {

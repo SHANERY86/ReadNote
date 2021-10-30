@@ -14,6 +14,7 @@ import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
+import timber.log.Timber.i
 import java.util.concurrent.atomic.AtomicInteger
 
 class noteList : AppCompatActivity(), NoteListener {
@@ -28,9 +29,9 @@ class noteList : AppCompatActivity(), NoteListener {
         setContentView(noteListLayout.root)
         app = this.application as readNoteApp
         bookId = intent.getLongExtra("bookid",-1)
-        book = app.books.findById(bookId)!!
+        book = app.data.findBookById(bookId)!!
         noteListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        noteListLayout.recyclerView.adapter = NoteAdapter(app.books.getNotes(book), this)
+        noteListLayout.recyclerView.adapter = NoteAdapter(app.data.getNotes(book), this)
         super.onCreate(savedInstanceState)
 
         noteListLayout.newNote.setOnClickListener {
@@ -41,33 +42,18 @@ class noteList : AppCompatActivity(), NoteListener {
 
         noteListLayout.editBook.setOnClickListener {
             intent = Intent(this,Book::class.java)
-            intent.putExtra("bookid",book.id)
+            intent.putExtra("bookid",bookId)
             startActivity(intent)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_addbook -> {
-                startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_booklist -> {
-                startActivity(Intent(this, BookList::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return app.getMenuOptions(this,item)
     }
 
     override fun onNoteClick(note: NoteModel) {

@@ -27,12 +27,13 @@ class Book : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityBookBinding.inflate(layoutInflater)
         app = application as readNoteApp
+        val user = app.loggedInUser
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         if (intent.hasExtra("bookid")) {
             val bookid = intent.getLongExtra("bookid",-1)
-            book = app.books.findById(bookid)!!
+            book = app.data.findBookById(bookid)!!
             binding.bookTitle.setText(book.title)
             val button: Button = findViewById(R.id.addBook)
             button.setText(R.string.button_saveBook)
@@ -49,12 +50,13 @@ class Book : AppCompatActivity() {
         binding.addBook.setOnClickListener() {
             Timber.i("Add Book button pressed")
             book.title = binding.bookTitle.text.toString()
+            book.userId = user.id
             if(book.title.isNotEmpty()) {
-                if(intent.hasExtra("book_edit")) {
-                    app.books.update(book)
+                if(intent.hasExtra("bookid")) {
+                    app.data.updateBook(book)
                 }
                 else {
-                    app.books.create(book.copy())
+                    app.data.createBook(user.id, book.copy())
                 }
                 setResult(RESULT_OK)
                 startActivity(Intent(this, BookList::class.java))
@@ -68,10 +70,11 @@ class Book : AppCompatActivity() {
 
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
+
         }
 
         binding.deleteBook.setOnClickListener {
-            app.books.delete(book)
+            app.data.deleteBook(book)
             setResult(RESULT_OK)
             startActivity(Intent(this, BookList::class.java))
         }
@@ -80,26 +83,12 @@ class Book : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_addbook -> {
-                startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_booklist -> {
-                startActivity(Intent(this, BookList::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return app.getMenuOptions(this,item)
     }
 
     private fun registerImagePickerCallback() {

@@ -9,19 +9,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityMainBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.LocationModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
+import timber.log.Timber.i
 import java.util.concurrent.atomic.AtomicInteger
 
 
 class Note : AppCompatActivity() {
     var activitiesLaunched: AtomicInteger = AtomicInteger(0)
     private lateinit var binding : ActivityMainBinding
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var note = NoteModel()
     var bookId : Long = 0L
@@ -31,17 +35,32 @@ class Note : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         app = application as readNoteApp
         bookId = intent.getLongExtra("bookid",-1)
-        book = app.books.findById(bookId)!!
+        book = app.data.findBookById(bookId)!!
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.pagePicker.maxValue = 1000
+        binding.pagePicker.minValue = 1
+        binding.pagePicker.setOnValueChangedListener { _, _, newVal ->
+            binding.addPageNumber.setText("$newVal")
+        }
 
         if(intent.hasExtra("note_edit")){
             note = intent.extras?.getParcelable("note_edit")!!
             binding.addContent.setText(note.content)
+            val pageNumber = note.pageNumber.replace("page ","")
+            binding.addPageNumber.setText(pageNumber)
+            if(pageNumber.isNotEmpty()) {
+                binding.pagePicker.setValue(pageNumber.toInt())
+            }
             val button: Button = findViewById(R.id.addNote)
             button.setText(R.string.button_saveNote)
             val deleteButton: Button = findViewById(R.id.deleteNote)
             deleteButton.setVisibility(View.VISIBLE)
+        }
+
+        if(note.location != null) {
+            val addLocButton: Button = findViewById(R.id.addLocation)
+            addLocButton.setText(R.string.button_locationPresent)
         }
 
         binding.addNote.setOnClickListener() {
@@ -53,10 +72,10 @@ class Note : AppCompatActivity() {
             }
             if (note.content.isNotEmpty()) {
                 if(intent.hasExtra("note_edit")) {
-                    app.books.updateNote(book, note)
+                    app.data.updateNote(book, note)
                 }
                 else {
-                    app.books.createNote(book, note.copy())
+                    app.data.createNote(book, note.copy())
                 }
                 startNoteList()
             } else {
@@ -66,36 +85,50 @@ class Note : AppCompatActivity() {
             }
         }
 
+        binding.addLocation.setOnClickListener() {
+            var location = LocationModel( 52.245696, -7.139102, 5f)
+            if (note.location != null) {
+                location = note.location!!
+            }
+            val launcherIntent = Intent(this, Maps::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         binding.deleteNote.setOnClickListener() {
             Timber.i("Delete button pushed")
-            app.books.deleteNote(book, note)
+            app.data.deleteNote(book, note)
             startNoteList()
         }
+        registerMapCallback()
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<LocationModel>("location")!!
+                            i("Location == $location")
+                            note.location = location
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_addbook -> {
-                startActivity(Intent(this, Book::class.java))
-                true
-            }
-            R.id.action_booklist -> {
-                startActivity(Intent(this, BookList::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        return app.getMenuOptions(this,item)
         }
-
-    }
 
 
     fun startNoteList(){

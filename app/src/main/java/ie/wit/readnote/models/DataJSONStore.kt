@@ -73,6 +73,8 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
 
     override fun createNote(book: BookModel, note: NoteModel) {
         note.id = generateRandomId()
+        i("TEST NOTE ID ${note.id}")
+        i("TEST NOTE ${note}")
         val notes = book.notes
         notes.add(note)
         serialize()
@@ -84,6 +86,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
         val noteToUpdate = notes.find { n -> n.id == updatedNoteId }
         noteToUpdate?.content = note.content
         noteToUpdate?.pageNumber = note.pageNumber
+        noteToUpdate?.location = if (note.location != null) note.location else null
         serialize()
     }
 
@@ -105,10 +108,18 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE)
         val jsonData : JsonObject = gsonBuilder.fromJson(jsonString, JsonObject::class.java)
-        val booksString = jsonData.getAsJsonArray("books").toString()
-        val usersString = jsonData.getAsJsonArray("users").toString()
-        books = gsonBuilder.fromJson(booksString,bookListType)
-        users = gsonBuilder.fromJson(usersString,userListType)
+        val booksArray = jsonData.getAsJsonArray("books")
+        val usersArray = jsonData.getAsJsonArray("users")
+        if (booksArray != null) {
+            val booksString = booksArray.toString()
+            books = gsonBuilder.fromJson(booksString, bookListType)
+        }
+        if (usersArray != null) {
+            val usersString = usersArray.toString()
+            users = gsonBuilder.fromJson(usersString, userListType)
+        }
+
+
     }
 
     fun logAllBooks() {
@@ -129,6 +140,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
 
     override fun createUser(user: UserModel) {
         user.id = generateRandomId()
+        i("TEST USER $user")
         users.add(user)
         serialize()
     }

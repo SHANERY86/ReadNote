@@ -52,7 +52,7 @@ class Book : AppCompatActivity() {
             book.title = binding.bookTitle.text.toString()
             book.userId = user.id
             if(book.title.isNotEmpty()) {
-                if(intent.hasExtra("book_edit")) {
+                if(intent.hasExtra("bookid")) {
                     app.data.updateBook(book)
                 }
                 else {
@@ -70,6 +70,7 @@ class Book : AppCompatActivity() {
 
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
+
         }
 
         binding.deleteBook.setOnClickListener {

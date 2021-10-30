@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityLoginBinding
 import ie.wit.readnote.main.readNoteApp
+import timber.log.Timber.i
 
 
 class Login : AppCompatActivity() {
@@ -24,6 +25,7 @@ class Login : AppCompatActivity() {
             val passwordEntry = LoginLayout.password.text.toString()
             if (userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()) {
                 val users = app.data.getAllUsers()
+                i("TEST USERS: $users")
                 users.forEach { user -> if (user.userName == userNameEntry && user.password == passwordEntry) {
                     app.setUser(user)
                     setResult(RESULT_OK)

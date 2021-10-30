@@ -21,25 +21,24 @@ class SignUp : AppCompatActivity() {
         signUpLayout = ActivitySignUpBinding.inflate(layoutInflater)
         app = application as readNoteApp
         setContentView(signUpLayout.root)
-
+        var userFound = false
+        val user = app.loggedInUser
         signUpLayout.SignUp.setOnClickListener {
             i("SIGN UP")
-            var user = UserModel()
-            var userFound = false
+            var newUser = UserModel()
             val userNameEntry = signUpLayout.userName.text.toString()
-            user.userName = signUpLayout.userName.text.toString()
-            user.password = signUpLayout.password.text.toString()
+            newUser.userName = signUpLayout.userName.text.toString()
+            newUser.password = signUpLayout.password.text.toString()
             val users = app.data.getAllUsers()
             users.forEach { if(user.userName == userNameEntry) {
                 userFound = true
             } }
+            i("TEST BOOLEAN: $userFound")
             if(!userFound) {
-                app.data.createUser(user)
-                app.loggedInUser = user
-                i("USER CREATED $user")
-                app.setUser(user)
+                app.data.createUser(newUser)
+                app.loggedInUser = newUser
+                i("USER CREATED $newUser")
                 i("LOGGED IN USER ${app.loggedInUser}")
-                app.setUser(user)
                 setResult(RESULT_OK)
                 startActivity(Intent(this, BookList::class.java))
             }

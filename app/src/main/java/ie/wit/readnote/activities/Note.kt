@@ -15,6 +15,7 @@ import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityMainBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.LocationModel
 import ie.wit.readnote.models.NoteModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -48,11 +49,18 @@ class Note : AppCompatActivity() {
             binding.addContent.setText(note.content)
             val pageNumber = note.pageNumber.replace("page ","")
             binding.addPageNumber.setText(pageNumber)
-            binding.pagePicker.setValue(pageNumber.toInt())
+            if(pageNumber.isNotEmpty()) {
+                binding.pagePicker.setValue(pageNumber.toInt())
+            }
             val button: Button = findViewById(R.id.addNote)
             button.setText(R.string.button_saveNote)
             val deleteButton: Button = findViewById(R.id.deleteNote)
             deleteButton.setVisibility(View.VISIBLE)
+        }
+
+        if(note.location != null) {
+            val addLocButton: Button = findViewById(R.id.addLocation)
+            addLocButton.setText(R.string.button_locationPresent)
         }
 
         binding.addNote.setOnClickListener() {
@@ -78,7 +86,12 @@ class Note : AppCompatActivity() {
         }
 
         binding.addLocation.setOnClickListener() {
+            var location = LocationModel( 52.245696, -7.139102, 5f)
+            if (note.location != null) {
+                location = note.location!!
+            }
             val launcherIntent = Intent(this, Maps::class.java)
+                .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
         }
 
@@ -93,7 +106,19 @@ class Note : AppCompatActivity() {
     private fun registerMapCallback() {
         mapIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { i("Map Loaded") }
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<LocationModel>("location")!!
+                            i("Location == $location")
+                            note.location = location
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

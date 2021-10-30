@@ -32,9 +32,6 @@ class readNoteApp : Application() {
         loggedInUser = user
     }
 
-    fun logOut() {
-        loggedInUser = UserModel()
-    }
 
     fun getMenuOptions(a: AppCompatActivity,item: MenuItem)  : Boolean {
         return when (item.itemId) {
@@ -57,7 +54,7 @@ class readNoteApp : Application() {
                 true
             }
             R.id.action_logout -> {
-                logOut()
+                loggedInUser = UserModel()
                 val intent = Intent(this, Login::class.java)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)

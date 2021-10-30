@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
+import ie.wit.readnote.helpers.UriParser
 import org.wit.readnote.helpers.exists
 import org.wit.readnote.helpers.read
 import org.wit.readnote.helpers.write
@@ -13,7 +14,7 @@ import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val JSON_FILE = "data.json"
+
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
@@ -24,8 +25,7 @@ fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
-class DataJSONStore(private val context: Context) : BookStore, UserStore {
-
+class DataJSONStore(private val context: Context, val JSON_FILE : String) : BookStore, UserStore {
     var books = mutableListOf<BookModel>()
     var users = mutableListOf<UserModel>()
 
@@ -160,19 +160,3 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
 }
 
 
-class UriParser : JsonDeserializer<Uri>, JsonSerializer<Uri> {
-    override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): Uri {
-        return Uri.parse(json?.asString)
-    }
-    override fun serialize(
-        src: Uri?,
-        typeOfSrc: Type?,
-        context: JsonSerializationContext?
-    ): JsonElement {
-        return JsonPrimitive(src.toString())
-    }
-}

@@ -24,7 +24,7 @@ class Login : AppCompatActivity() {
             val userNameEntry = LoginLayout.userName.text.toString()
             val passwordEntry = LoginLayout.password.text.toString()
             if (userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()) {
-                val users = app.data.getAllUsers()
+                val users = app.data.users
                 i("TEST USERS: $users")
                 users.forEach { user -> if (user.userName == userNameEntry && user.password == passwordEntry) {
                     app.setUser(user)

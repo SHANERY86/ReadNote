@@ -31,7 +31,7 @@ class noteList : AppCompatActivity(), NoteListener {
         bookId = intent.getLongExtra("bookid",-1)
         book = app.data.findBookById(bookId)!!
         noteListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        noteListLayout.recyclerView.adapter = NoteAdapter(app.data.getNotes(book), this)
+        noteListLayout.recyclerView.adapter = NoteAdapter(book.notes, this)
         super.onCreate(savedInstanceState)
 
         noteListLayout.newNote.setOnClickListener {

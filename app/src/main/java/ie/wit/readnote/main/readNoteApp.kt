@@ -22,7 +22,7 @@ class readNoteApp : Application() {
     //    val books = BookMemStore()
     override fun onCreate() {
         super.onCreate()
-        data = DataJSONStore(applicationContext)
+        data = DataJSONStore(applicationContext, "data.json")
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         Timber.plant(Timber.DebugTree())
         Timber.i("Starting ReadNote Application")

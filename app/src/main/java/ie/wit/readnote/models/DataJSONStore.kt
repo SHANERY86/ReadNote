@@ -4,16 +4,16 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
+import ie.wit.readnote.helpers.UriParser
 import org.wit.readnote.helpers.exists
 import org.wit.readnote.helpers.read
 import org.wit.readnote.helpers.write
-import timber.log.Timber
 import timber.log.Timber.i
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val JSON_FILE = "data.json"
+
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
@@ -24,13 +24,12 @@ fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
-class DataJSONStore(private val context: Context) : BookStore, UserStore {
-
+class DataJSONStore(private val context: Context, val JSON_FILE : String) : BookStore, UserStore {
     var books = mutableListOf<BookModel>()
     var users = mutableListOf<UserModel>()
 
     init {
-        if (exists(context, JSON_FILE))
+        if (exists(context, JSON_FILE) || (JSON_FILE.contains("test")))
             deserialize()
     }
 
@@ -51,7 +50,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
     override fun createBook(userId: Long, book: BookModel) {
         book.id = generateRandomId()
         books.add(book)
-        serialize()
+        update()
     }
 
     override fun updateBook(book: BookModel) {
@@ -60,7 +59,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
             foundBook.title = book.title
             foundBook.image = book.image
         }
-        serialize()
+        update()
     }
 
     override fun deleteBook(book: BookModel) {
@@ -68,16 +67,14 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
         if (foundBook != null) {
             books.remove(book)
         }
-        serialize()
+        update()
     }
 
     override fun createNote(book: BookModel, note: NoteModel) {
         note.id = generateRandomId()
-        i("TEST NOTE ID ${note.id}")
-        i("TEST NOTE ${note}")
         val notes = book.notes
         notes.add(note)
-        serialize()
+        update()
     }
 
     override fun updateNote(book: BookModel, note: NoteModel) {
@@ -87,7 +84,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
         noteToUpdate?.content = note.content
         noteToUpdate?.pageNumber = note.pageNumber
         noteToUpdate?.location = if (note.location != null) note.location else null
-        serialize()
+        update()
     }
 
     override fun deleteNote(book: BookModel, note: NoteModel) {
@@ -95,7 +92,7 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
         val noteToDeleteId = note.id
         val noteToDelete = notes.find { n -> n.id == noteToDeleteId }
         notes.remove(noteToDelete)
-        serialize()
+        update()
     }
 
     private fun serialize() {
@@ -118,61 +115,32 @@ class DataJSONStore(private val context: Context) : BookStore, UserStore {
             val usersString = usersArray.toString()
             users = gsonBuilder.fromJson(usersString, userListType)
         }
-
-
     }
 
-    fun logAllBooks() {
-        books.forEach { Timber.i("$it")}
-    }
-
-    fun logAllUsers() {
-        users.forEach { i("$it" )}
-    }
-
-    override fun getNotes(book: BookModel) : ArrayList<NoteModel> {
-        return book.notes
-    }
-
-    override fun findUserById(id: Long): UserModel? {
-        TODO("Not yet implemented")
-    }
 
     override fun createUser(user: UserModel) {
         user.id = generateRandomId()
         i("TEST USER $user")
         users.add(user)
-        serialize()
-    }
-
-    override fun updateUser(user: UserModel) {
-        TODO("Not yet implemented")
+        update()
     }
 
     override fun deleteUser(user: UserModel) {
-        TODO("Not yet implemented")
+        books.forEach { book ->
+            if (book.userId == user.id) {
+                books.remove(book)
+            }
+        }
+        users.remove(user)
+        update()
     }
 
-    override fun getAllUsers() : MutableList<UserModel> {
-        return users
+    fun update() {
+        if(!JSON_FILE.equals("test")) {
+            serialize()
+        }
     }
 
 }
 
 
-class UriParser : JsonDeserializer<Uri>, JsonSerializer<Uri> {
-    override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): Uri {
-        return Uri.parse(json?.asString)
-    }
-    override fun serialize(
-        src: Uri?,
-        typeOfSrc: Type?,
-        context: JsonSerializationContext?
-    ): JsonElement {
-        return JsonPrimitive(src.toString())
-    }
-}

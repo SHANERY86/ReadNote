@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityAccountBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.UserModel
 
 class Account : AppCompatActivity() {
     lateinit var app : readNoteApp
@@ -27,11 +28,19 @@ class Account : AppCompatActivity() {
             if(userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()){
                 user.userName = userNameEntry
                 user.password = passwordEntry
+                app.data.update()
                 app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 Snackbar
                     .make(it, R.string.snackbar_UpdatedDetails, Snackbar.LENGTH_LONG)
                     .show()
             }
+        }
+
+        accountLayout.Delete.setOnClickListener() {
+            app.data.deleteUser(user)
+            app.loggedInUser = UserModel()
+            setResult(RESULT_OK)
+            startActivity(Intent(this, Login::class.java))
         }
     }
 

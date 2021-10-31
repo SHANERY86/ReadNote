@@ -9,5 +9,4 @@ interface BookStore {
     fun createNote(book: BookModel, note: NoteModel)
     fun updateNote(book: BookModel, note: NoteModel)
     fun deleteNote(book: BookModel, note: NoteModel)
-    fun getNotes(book: BookModel): ArrayList<NoteModel>
 }

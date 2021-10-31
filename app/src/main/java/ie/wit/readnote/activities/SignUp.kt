@@ -29,7 +29,7 @@ class SignUp : AppCompatActivity() {
             val userNameEntry = signUpLayout.userName.text.toString()
             newUser.userName = signUpLayout.userName.text.toString()
             newUser.password = signUpLayout.password.text.toString()
-            val users = app.data.getAllUsers()
+            val users = app.data.users
             users.forEach { if(user.userName == userNameEntry) {
                 userFound = true
             } }

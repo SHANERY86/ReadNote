@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/bookListFragment"
-        android:name="ie.wit.readnote.BookListFragment"
+        android:name="ie.wit.readnote.fragments.BookListFragment"
         android:label="fragment_book_list"
         tools:layout="@layout/fragment_book_list" />
     <fragment
         android:id="@+id/bookFragment"
-        android:name="ie.wit.readnote.BookFragment"
+        android:name="ie.wit.readnote.fragments.BookFragment"
         android:label="fragment_book"
         tools:layout="@layout/fragment_book" />
 </navigation>

@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/bookListFragment"
         android:name="ie.wit.readnote.fragments.BookListFragment"
-        android:label="fragment_book_list"
+        android:label="@string/action_booklist"
         tools:layout="@layout/fragment_book_list" />
     <fragment
         android:id="@+id/bookFragment"
         android:name="ie.wit.readnote.fragments.BookFragment"
-        android:label="fragment_book"
+        android:label="@string/action_addbook"
         tools:layout="@layout/fragment_book" />
 </navigation>

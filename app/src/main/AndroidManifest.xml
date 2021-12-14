@@ -41,12 +41,6 @@
             android:name=".activities.SignUp"
             android:exported="true" />
         <activity
-            android:name=".activities.BookList"
-            android:exported="true" />
-        <activity
-            android:name=".activities.Book"
-            android:exported="true" />
-        <activity
             android:name=".activities.noteList"
             android:exported="true" />
         <activity

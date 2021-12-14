@@ -29,7 +29,7 @@ class Login : AppCompatActivity() {
                 users.forEach { user -> if (user.userName == userNameEntry && user.password == passwordEntry) {
                     app.setUser(user)
                     setResult(RESULT_OK)
-                    startActivity(Intent(this, BookList::class.java))
+      //              startActivity(Intent(this, BookList::class.java))
                 }
                 }
                 if(app.loggedInUser.id == 0L) {

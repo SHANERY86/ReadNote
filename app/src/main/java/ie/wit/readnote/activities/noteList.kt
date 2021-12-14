@@ -41,7 +41,7 @@ class noteList : AppCompatActivity(), NoteListener {
         }
 
         noteListLayout.editBook.setOnClickListener {
-            intent = Intent(this,Book::class.java)
+//            intent = Intent(this,Book::class.java)
             intent.putExtra("bookid",bookId)
             startActivity(intent)
         }
@@ -52,9 +52,9 @@ class noteList : AppCompatActivity(), NoteListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+ /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return app.getMenuOptions(this,item)
-    }
+    } */
 
     override fun onNoteClick(note: NoteModel) {
         super.onNoteClick(note)

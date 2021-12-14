@@ -49,8 +49,8 @@ class Account : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return app.getMenuOptions(this,item)
-        }
+        } */
 
 }

@@ -40,7 +40,7 @@ class SignUp : AppCompatActivity() {
                 i("USER CREATED $newUser")
                 i("LOGGED IN USER ${app.loggedInUser}")
                 setResult(RESULT_OK)
-                startActivity(Intent(this, BookList::class.java))
+  //              startActivity(Intent(this, BookList::class.java))
             }
             else {
                 Snackbar

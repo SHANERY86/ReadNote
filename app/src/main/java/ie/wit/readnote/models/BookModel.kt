@@ -9,4 +9,4 @@ data class BookModel(var id : Long = 0,
                      var userId: Long = 0,
                      var title: String = "",
                      var image: Uri = Uri.EMPTY,
-var notes: ArrayList<NoteModel> = ArrayList()) : Parcelable
+                    var notes: ArrayList<NoteModel> = ArrayList()) : Parcelable

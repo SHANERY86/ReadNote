@@ -47,8 +47,12 @@ class DataJSONStore(private val context: Context, val JSON_FILE : String) : Book
         return foundBook
     }
 
-    override fun createBook(userId: Long, book: BookModel) {
-        book.id = generateRandomId()
+    override fun findBooks(): List<BookModel> {
+        return books
+    }
+
+    override fun createBook(book: BookModel) {
+//        book.id = generateRandomId()
         books.add(book)
         update()
     }

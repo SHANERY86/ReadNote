@@ -5,12 +5,23 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import ie.wit.donationx.adapters.BookAdapter
+import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R
+import ie.wit.readnote.databinding.FragmentBookListBinding
+import ie.wit.readnote.main.readNoteApp
 
-class BookListFragment : Fragment() {
+class BookListFragment : Fragment(), BookListener {
+
+    lateinit var app : readNoteApp
+    private var _fragBinding: FragmentBookListBinding? = null
+    private val fragBinding get() = _fragBinding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        app = activity?.application as readNoteApp
         setHasOptionsMenu(true)
     }
 
@@ -18,7 +29,15 @@ class BookListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_book_list, container, false)
+        _fragBinding = FragmentBookListBinding.inflate(inflater, container, false)
+        val root = fragBinding.root
+        activity?.title = getString(R.string.action_booklist)
+
+        fragBinding.recyclerView.setLayoutManager(GridLayoutManager(activity,3))
+        fragBinding.recyclerView.adapter = BookAdapter(app.data.findBooks(),this)
+        super.onCreate(savedInstanceState)
+
+        return root
     }
 
     companion object {
@@ -37,5 +56,10 @@ class BookListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragBinding = null
     }
 }

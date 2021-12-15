@@ -15,4 +15,9 @@
         android:name="ie.wit.readnote.fragments.BookFragment"
         android:label="@string/action_addbook"
         tools:layout="@layout/fragment_book" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ie.wit.readnote.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

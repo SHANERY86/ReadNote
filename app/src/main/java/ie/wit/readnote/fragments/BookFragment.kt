@@ -6,6 +6,7 @@ import android.view.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
@@ -48,6 +49,7 @@ class BookFragment : Fragment() {
 //            book.userId = user.id
             if(book.title.isNotEmpty()) {
                 app.data.createBook(book.copy())
+                findNavController().navigate(R.id.bookListFragment)
                 }
             else {
                 Snackbar

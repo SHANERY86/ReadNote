@@ -28,7 +28,7 @@ class Account : AppCompatActivity() {
             if(userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()){
                 user.userName = userNameEntry
                 user.password = passwordEntry
-                app.data.update()
+//                app.data.update()
                 app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 Snackbar
                     .make(it, R.string.snackbar_UpdatedDetails, Snackbar.LENGTH_LONG)
@@ -37,7 +37,7 @@ class Account : AppCompatActivity() {
         }
 
         accountLayout.Delete.setOnClickListener() {
-            app.data.deleteUser(user)
+//            app.data.deleteUser(user)
             app.loggedInUser = UserModel()
             setResult(RESULT_OK)
             startActivity(Intent(this, Login::class.java))

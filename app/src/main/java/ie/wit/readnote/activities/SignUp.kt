@@ -29,7 +29,7 @@ class SignUp : AppCompatActivity() {
             val userNameEntry = signUpLayout.userName.text.toString()
             newUser.userName = signUpLayout.userName.text.toString()
             newUser.password = signUpLayout.password.text.toString()
-            val users = app.data.users
+/*            val users = app.data.users
             users.forEach { if(user.userName == userNameEntry) {
                 userFound = true
             } }
@@ -46,7 +46,7 @@ class SignUp : AppCompatActivity() {
                 Snackbar
                     .make(it, R.string.snackbar_UsernameTaken, Snackbar.LENGTH_LONG)
                     .show()
-            }
+            } */
         }
     }
 

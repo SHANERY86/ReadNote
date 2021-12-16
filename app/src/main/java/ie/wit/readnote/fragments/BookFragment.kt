@@ -1,25 +1,30 @@
 package ie.wit.readnote.fragments
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.UserModel
+import org.wit.placemark.helpers.showImagePicker
 import timber.log.Timber
 
 class BookFragment : Fragment() {
     private var _fragBinding: FragmentBookBinding? = null
     private val fragBinding get() = _fragBinding!!
-//    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     lateinit var app : readNoteApp
     var book = BookModel()
     var user = UserModel()
@@ -58,9 +63,15 @@ class BookFragment : Fragment() {
             }
         }
 
+        layout.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+
         layout.deleteBook.setOnClickListener() {
             app.data.deleteBook(book)
         }
+
+        registerImagePickerCallback()
 
     }
 
@@ -85,6 +96,25 @@ class BookFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Result ${result.data!!.data}")
+                            book.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(book.image)
+                                .into(fragBinding.bookCover)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
 

@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class readNoteApp : Application() {
 
-    lateinit var data: DataMemStore
+    lateinit var data: DataManager
     var loggedInUser = UserModel()
     lateinit var imm: InputMethodManager
 
@@ -21,7 +21,7 @@ class readNoteApp : Application() {
     override fun onCreate() {
         super.onCreate()
 //        data = DataJSONStore(applicationContext, "data.json")
-        data = DataMemStore()
+//        data = DataMemStore()
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         Timber.plant(Timber.DebugTree())
         Timber.i("Starting ReadNote Application")

@@ -3,6 +3,8 @@ package ie.wit.readnote.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,12 +14,14 @@ import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookListBinding
 import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.models.BookModel
 
 class BookListFragment : Fragment(), BookListener {
 
     lateinit var app : readNoteApp
     private var _fragBinding: FragmentBookListBinding? = null
     private val fragBinding get() = _fragBinding!!
+    private lateinit var bookListViewModel: BookListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +38,19 @@ class BookListFragment : Fragment(), BookListener {
         activity?.title = getString(R.string.action_booklist)
 
         fragBinding.recyclerView.setLayoutManager(GridLayoutManager(activity,3))
-        fragBinding.recyclerView.adapter = BookAdapter(app.data.findBooks(),this)
+        bookListViewModel = ViewModelProvider(this).get(BookListViewModel::class.java)
+        bookListViewModel.observableBookList.observe(viewLifecycleOwner, Observer {
+            books ->
+            books?.let { render(books)}
+        })
+//        fragBinding.recyclerView.adapter = BookAdapter(app.data.findBooks(),this)
         super.onCreate(savedInstanceState)
 
         return root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            BookListFragment().apply {
-                arguments = Bundle().apply {}
-            }
+    private fun render(bookList: List<BookModel>) {
+        fragBinding.recyclerView.adapter = BookAdapter(bookList, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

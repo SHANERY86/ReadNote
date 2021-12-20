@@ -33,9 +33,11 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
     inner class MainHolder(val binding : CardBookBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(book: BookModel, listener: BookListener) {
-            binding.bookTitle.text = book.title
+            binding.book = book
             Picasso.get().load(book.image).fit().into(binding.bookCover)
-            binding.root.setOnClickListener { listener.onBookClick(book) }
+            binding.root.setOnClickListener { listener.onBookClick(book)
+            binding.executePendingBindings()
+            }
         }
     }
 }

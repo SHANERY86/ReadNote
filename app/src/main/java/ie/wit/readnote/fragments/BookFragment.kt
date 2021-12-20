@@ -5,9 +5,12 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -25,14 +28,17 @@ class BookFragment : Fragment() {
     private var _fragBinding: FragmentBookBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var bookViewModel: BookViewModel
     lateinit var app : readNoteApp
     var book = BookModel()
     var user = UserModel()
 
+//    TODO: Check favourites to find lab spot to continue from
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as readNoteApp
-        user = app.loggedInUser
+//        user = app.loggedInUser
         setHasOptionsMenu(true)
     }
 
@@ -42,9 +48,25 @@ class BookFragment : Fragment() {
     ): View? {
         _fragBinding = FragmentBookBinding.inflate(inflater, container, false)
         val root = fragBinding.root
+
+        bookViewModel = ViewModelProvider(this).get(BookViewModel::class.java)
+        bookViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
+            status -> status?.let { render(status) }
+        })
         activity?.title = getString(R.string.action_addbook)
         setButtonListener(fragBinding)
         return root
+    }
+
+    private fun render(status: Boolean) {
+        when (status) {
+            true -> {
+                view?.let {
+                    findNavController().popBackStack()
+                }
+            }
+            false -> Toast.makeText(context,getString(R.string.addBookError),Toast.LENGTH_LONG).show()
+        }
     }
 
     fun setButtonListener(layout: FragmentBookBinding) {
@@ -53,8 +75,7 @@ class BookFragment : Fragment() {
             book.title = layout.bookTitle.text.toString()
 //            book.userId = user.id
             if(book.title.isNotEmpty()) {
-                app.data.createBook(book.copy())
-                findNavController().navigate(R.id.bookListFragment)
+                bookViewModel.addBook(book)
                 }
             else {
                 Snackbar
@@ -73,14 +94,6 @@ class BookFragment : Fragment() {
 
         registerImagePickerCallback()
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            BookFragment().apply {
-                arguments = Bundle().apply {}
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

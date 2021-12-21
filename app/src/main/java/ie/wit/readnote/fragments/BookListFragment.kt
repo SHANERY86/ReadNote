@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,5 +67,11 @@ class BookListFragment : Fragment(), BookListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+    override fun onBookClick(book: BookModel) {
+        val bookid = book.id
+        val action = BookListFragmentDirections.actionBookListFragmentToBookFragment(bookid)
+        findNavController().navigate(action)
     }
 }

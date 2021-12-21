@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -29,11 +30,11 @@ class BookFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var bookViewModel: BookViewModel
+    private val args by navArgs<BookFragmentArgs>()
     lateinit var app : readNoteApp
     var book = BookModel()
     var user = UserModel()
 
-//    TODO: Check favourites to find lab spot to continue from
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,9 @@ class BookFragment : Fragment() {
         bookViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
             status -> status?.let { render(status) }
         })
+        bookViewModel.observableBook.observe(viewLifecycleOwner, Observer {
+            book -> book?.let { renderBook() }
+        })
         activity?.title = getString(R.string.action_addbook)
         setButtonListener(fragBinding)
         return root
@@ -69,13 +73,24 @@ class BookFragment : Fragment() {
         }
     }
 
+    private fun renderBook() {
+        fragBinding.book = bookViewModel
+        fragBinding.addBook.setText(R.string.button_editBook)
+        fragBinding.chooseImage.setText(R.string.button_changeCover)
+    }
+
     fun setButtonListener(layout: FragmentBookBinding) {
         layout.addBook.setOnClickListener() {
             Timber.i("Add Book button pressed")
             book.title = layout.bookTitle.text.toString()
 //            book.userId = user.id
             if(book.title.isNotEmpty()) {
-                bookViewModel.addBook(book)
+                if(args.bookid != -1L){
+                    bookViewModel.updateBook(book)
+                }
+                else {
+                    bookViewModel.addBook(book)
+                }
                 }
             else {
                 Snackbar
@@ -109,6 +124,11 @@ class BookFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bookViewModel.getBook(args.bookid)
     }
 
     private fun registerImagePickerCallback() {

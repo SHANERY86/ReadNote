@@ -1,12 +1,14 @@
 package ie.wit.readnote.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import ie.wit.readnote.R
+import ie.wit.readnote.activities.Home
 import ie.wit.readnote.databinding.ActivityLoginBinding
 import ie.wit.readnote.main.readNoteApp
 import timber.log.Timber
@@ -14,8 +16,7 @@ import timber.log.Timber
 
 class Login : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-
+    private lateinit var loginViewModel : LoginViewModel
     private lateinit var LoginLayout : ActivityLoginBinding
     lateinit var app : readNoteApp
 
@@ -24,58 +25,69 @@ class Login : AppCompatActivity() {
         LoginLayout = ActivityLoginBinding.inflate(layoutInflater)
         app = application as readNoteApp
         setContentView(LoginLayout.root)
-        auth = FirebaseAuth.getInstance()
+
 
         LoginLayout.Login.setOnClickListener() {
-
-            val userNameEntry = LoginLayout.email.text.toString()
-            val passwordEntry = LoginLayout.password.text.toString()
-            if (userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()) {
-/*                val users = app.data.users
-                i("TEST USERS: $users")
-                users.forEach { user -> if (user.userName == userNameEntry && user.password == passwordEntry) {
-                    app.setUser(user)
-                    setResult(RESULT_OK)
-      //              startActivity(Intent(this, BookList::class.java))
-                }
-                } */
-                if(app.loggedInUser.id == 0L) {
-                    app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
-                    Snackbar
-                        .make(it, R.string.snackbar_BadCreds, Snackbar.LENGTH_LONG)
-                        .show()
-                }
-            }
-            else {
-                app.imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
-                Snackbar
-                    .make(it, R.string.snackbar_EmptyCreds, Snackbar.LENGTH_LONG)
-                    .show()
-            }
+            signIn(LoginLayout.email.text.toString(),LoginLayout.password.text.toString())
         }
 
         LoginLayout.SignUp.setOnClickListener() {
-            auth.createUserWithEmailAndPassword(LoginLayout.email.text.toString(), LoginLayout.password.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Timber.d( "createUserWithEmail:success")
-                        val user = auth.currentUser
-                        findNavController(R.id.nav_host_fragment).navigate(R.id.bookListFragment)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Timber.w( "createUserWithEmail:failure $task.exception")
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
-//                        updateUI(null)
-                    }
-
-                    // [START_EXCLUDE]
-//                    hideLoader(loader)
-                    // [END_EXCLUDE]
-                }
+            createAccount(LoginLayout.email.text.toString(),LoginLayout.password.text.toString())
         }
     }
 
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        loginViewModel.liveFirebaseUser.observe(this, Observer
+        { firebaseUser -> if (firebaseUser != null)
+            startActivity(Intent(this, Home::class.java)) })
+
+        loginViewModel.firebaseAuthManager.errorStatus.observe(this, Observer
+        { status -> checkStatus(status) })
+    }
+
+    private fun createAccount(email: String, password: String) {
+        Timber.d("createAccount:$email")
+        if (!validateForm()) { return }
+
+        loginViewModel.register(email,password)
+    }
+
+    private fun signIn(email: String, password: String) {
+        Timber.d("signIn:$email")
+        if (!validateForm()) { return }
+
+        loginViewModel.login(email,password)
+    }
+
+    private fun checkStatus(error:Boolean) {
+        if (error)
+            Toast.makeText(this,
+                getString(R.string.auth_failed),
+                Toast.LENGTH_LONG).show()
+    }
+
+    private fun validateForm(): Boolean {
+        var valid = true
+
+        val email = LoginLayout.email.text.toString()
+        if (TextUtils.isEmpty(email)) {
+            LoginLayout.email.error = "Required."
+            valid = false
+        } else {
+            LoginLayout.email.error = null
+        }
+
+        val password = LoginLayout.password.text.toString()
+        if (TextUtils.isEmpty(password)) {
+            LoginLayout.password.error = "Required."
+            valid = false
+        } else {
+            LoginLayout.password.error = null
+        }
+        return valid
+    }
 
 }

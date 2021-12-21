@@ -37,6 +37,7 @@
     <string name="title_activity_map">Map</string>
     <string name="button_locationPresent">See Location</string>
     <string name="addBookError">Error : Couldn\'t Add Book...</string>
+    <string name="auth_failed">Authentication failed</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

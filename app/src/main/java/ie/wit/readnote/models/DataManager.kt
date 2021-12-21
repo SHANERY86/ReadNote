@@ -27,8 +27,8 @@ object DataManager : BookStore {
         logAll()
     }
 
-    override fun updateBook(book: BookModel){
-        val foundBook: BookModel? = books.find { b -> b.id == book.id }
+    override fun updateBook(bookid: Long, book: BookModel){
+        val foundBook: BookModel? = books.find { b -> b.id == bookid }
         if (foundBook != null) {
             foundBook.title = book.title
             foundBook.image = book.image

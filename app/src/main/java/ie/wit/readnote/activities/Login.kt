@@ -2,15 +2,20 @@ package ie.wit.readnote.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityLoginBinding
 import ie.wit.readnote.main.readNoteApp
 import timber.log.Timber.i
 
 
-class Login : AppCompatActivity() {
+class Login : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var auth: FirebaseAuth
+
     private lateinit var LoginLayout : ActivityLoginBinding
     lateinit var app : readNoteApp
 
@@ -51,5 +56,9 @@ class Login : AppCompatActivity() {
             setResult(RESULT_OK)
             startActivity(Intent(this, SignUp::class.java))
         }
+    }
+
+    override fun onClick(v: View){
+
     }
 }

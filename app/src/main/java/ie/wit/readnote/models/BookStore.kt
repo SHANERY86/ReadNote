@@ -5,7 +5,7 @@ interface BookStore {
     fun findBookById(id: Long) : BookModel?
     fun findBooks() : List<BookModel>
     fun createBook(book: BookModel)
-    fun updateBook(book: BookModel)
+    fun updateBook(bookid: Long, book: BookModel)
     fun deleteBook(book: BookModel)
     fun createNote(book: BookModel, note: NoteModel)
     fun updateNote(book: BookModel, note: NoteModel)

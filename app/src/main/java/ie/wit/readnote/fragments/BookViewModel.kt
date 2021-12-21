@@ -15,8 +15,9 @@ class BookViewModel : ViewModel() {
     val observableStatus: LiveData<Boolean>
         get() = status
 
-    val observableBook: LiveData<BookModel>
+    var observableBook: LiveData<BookModel>
         get() = book
+        set(value) {book.value = value.value}
 
     fun addBook(book: BookModel) {
         status.value = try {
@@ -27,13 +28,19 @@ class BookViewModel : ViewModel() {
         }
     }
 
-    fun getBook(bookid: Long) {
+    fun seeBook(bookid: Long) {
         book.value = DataManager.findBookById(bookid)
     }
 
-    fun updateBook(book: BookModel) {
-            DataManager.updateBook(book)
+    fun updateBook(bookid: Long, book: BookModel) {
+        Timber.i("BOOK TEST: $book")
+            DataManager.updateBook(bookid, book)
             DataManager.logAll()
-            status.value = true
         }
+
+    fun findBook(bookid: Long) : BookModel? {
+        val book = DataManager.findBookById(bookid)
+        if (book != null) return book
+        else return null
+    }
 }

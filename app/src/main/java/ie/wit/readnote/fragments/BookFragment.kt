@@ -74,7 +74,8 @@ class BookFragment : Fragment() {
     }
 
     private fun renderBook() {
-        fragBinding.book = bookViewModel
+        fragBinding.bookvm = bookViewModel
+        Timber.i("Retrofit fragBinding.bookvm == $fragBinding.bookvm")
         fragBinding.addBook.setText(R.string.button_editBook)
         fragBinding.chooseImage.setText(R.string.button_changeCover)
     }
@@ -82,12 +83,13 @@ class BookFragment : Fragment() {
     fun setButtonListener(layout: FragmentBookBinding) {
         layout.addBook.setOnClickListener() {
             Timber.i("Add Book button pressed")
-            book.title = layout.bookTitle.text.toString()
-//            book.userId = user.id
+                book.title = layout.bookTitle.text.toString()
+//              book.userId = user.id
             if(book.title.isNotEmpty()) {
                 if(args.bookid != -1L){
-                    book.id = args.bookid
-                    bookViewModel.updateBook(book)
+//                    book.id = args.bookid
+                    bookViewModel.updateBook(args.bookid, fragBinding.bookvm?.observableBook!!.value!!)
+                    findNavController().navigateUp()
                 }
                 else {
                     bookViewModel.addBook(book)
@@ -129,8 +131,7 @@ class BookFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        bookViewModel.getBook(args.bookid)
-        Timber.i("BOOK ID ${args.bookid}")
+        bookViewModel.seeBook(args.bookid)
     }
 
     private fun registerImagePickerCallback() {

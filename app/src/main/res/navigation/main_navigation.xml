@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/bookListFragment"
-        android:name="ie.wit.readnote.fragments.BookListFragment"
+        android:name="ie.wit.readnote.ui.bookList.BookListFragment"
         android:label="@string/action_booklist"
         tools:layout="@layout/fragment_book_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookFragment"
-        android:name="ie.wit.readnote.fragments.BookFragment"
+        android:name="ie.wit.readnote.ui.book.BookFragment"
         android:label="@string/action_addbook"
         tools:layout="@layout/fragment_book" >
         <argument

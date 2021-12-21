@@ -28,6 +28,7 @@
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
     <string name="username">User Name</string>
+    <string name="email">E-Mail</string>
     <string name="password">Password</string>
     <string name="action_account">Account</string>
     <string name="button_updateAccount">UPDATE ACCOUNT</string>

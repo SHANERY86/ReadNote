@@ -1,4 +1,4 @@
-package ie.wit.readnote.fragments
+package ie.wit.readnote.ui.book
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -4,12 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityAccountBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.UserModel
+import ie.wit.readnote.ui.auth.Login
 
 class Account : AppCompatActivity() {
     lateinit var app : readNoteApp

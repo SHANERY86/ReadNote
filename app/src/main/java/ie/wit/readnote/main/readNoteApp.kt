@@ -1,13 +1,7 @@
 package ie.wit.readnote.main
 
 import android.app.Application
-import android.content.Intent
-import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import ie.wit.readnote.R
-import ie.wit.readnote.activities.Account
-import ie.wit.readnote.activities.Login
 import ie.wit.readnote.models.*
 import timber.log.Timber
 

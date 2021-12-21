@@ -35,7 +35,7 @@
             android:name=".activities.Account"
             android:exported="true" />
         <activity
-            android:name=".activities.Login"
+            android:name=".ui.auth.Login"
             android:exported="true"/>
         <activity
             android:name=".activities.SignUp"

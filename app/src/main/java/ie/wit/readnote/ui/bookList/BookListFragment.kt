@@ -1,4 +1,4 @@
-package ie.wit.readnote.fragments
+package ie.wit.readnote.ui.bookList
 
 import android.os.Bundle
 import android.view.*
@@ -9,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.donationx.adapters.BookAdapter
 import ie.wit.donationx.adapters.BookListener
 import ie.wit.readnote.R

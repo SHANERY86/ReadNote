@@ -1,18 +1,18 @@
-package ie.wit.readnote.activities
+package ie.wit.readnote.ui.auth
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.ActivityLoginBinding
 import ie.wit.readnote.main.readNoteApp
-import timber.log.Timber.i
+import timber.log.Timber
 
 
-class Login : AppCompatActivity(), View.OnClickListener {
+class Login : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -24,9 +24,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
         LoginLayout = ActivityLoginBinding.inflate(layoutInflater)
         app = application as readNoteApp
         setContentView(LoginLayout.root)
+        auth = FirebaseAuth.getInstance()
 
         LoginLayout.Login.setOnClickListener() {
-            val userNameEntry = LoginLayout.userName.text.toString()
+
+            val userNameEntry = LoginLayout.email.text.toString()
             val passwordEntry = LoginLayout.password.text.toString()
             if (userNameEntry.isNotEmpty() && passwordEntry.isNotEmpty()) {
 /*                val users = app.data.users
@@ -53,12 +55,27 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
 
         LoginLayout.SignUp.setOnClickListener() {
-            setResult(RESULT_OK)
-            startActivity(Intent(this, SignUp::class.java))
+            auth.createUserWithEmailAndPassword(LoginLayout.email.text.toString(), LoginLayout.password.text.toString())
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Timber.d( "createUserWithEmail:success")
+                        val user = auth.currentUser
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.bookListFragment)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Timber.w( "createUserWithEmail:failure $task.exception")
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
+//                        updateUI(null)
+                    }
+
+                    // [START_EXCLUDE]
+//                    hideLoader(loader)
+                    // [END_EXCLUDE]
+                }
         }
     }
 
-    override fun onClick(v: View){
 
-    }
 }

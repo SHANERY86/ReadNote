@@ -1,4 +1,4 @@
-package ie.wit.readnote.fragments
+package ie.wit.readnote.ui.book
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK

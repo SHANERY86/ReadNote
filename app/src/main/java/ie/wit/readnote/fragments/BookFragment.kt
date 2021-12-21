@@ -86,6 +86,7 @@ class BookFragment : Fragment() {
 //            book.userId = user.id
             if(book.title.isNotEmpty()) {
                 if(args.bookid != -1L){
+                    book.id = args.bookid
                     bookViewModel.updateBook(book)
                 }
                 else {
@@ -129,6 +130,7 @@ class BookFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         bookViewModel.getBook(args.bookid)
+        Timber.i("BOOK ID ${args.bookid}")
     }
 
     private fun registerImagePickerCallback() {

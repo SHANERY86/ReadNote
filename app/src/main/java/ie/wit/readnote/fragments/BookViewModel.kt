@@ -34,5 +34,6 @@ class BookViewModel : ViewModel() {
     fun updateBook(book: BookModel) {
             DataManager.updateBook(book)
             DataManager.logAll()
+            status.value = true
         }
 }

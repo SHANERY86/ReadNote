@@ -33,6 +33,7 @@ class FirebaseAuthManager(application: Application) {
             .addOnCompleteListener(application!!.mainExecutor, { task ->
                 if (task.isSuccessful) {
                     liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
+                    Timber.i("TEST AUTH USER ${firebaseAuth!!.currentUser?.uid!!}")
                     errorStatus.postValue(false)
                 } else {
                     Timber.i( "Login Failure: $task.exception!!.message")

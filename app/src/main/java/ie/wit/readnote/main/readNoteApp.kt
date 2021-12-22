@@ -7,7 +7,6 @@ import timber.log.Timber
 
 class readNoteApp : Application() {
 
-    lateinit var data: DataManager
     var loggedInUser = UserModel()
     lateinit var imm: InputMethodManager
 

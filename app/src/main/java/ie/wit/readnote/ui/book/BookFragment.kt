@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.main.readNoteApp
@@ -30,6 +31,7 @@ class BookFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var bookViewModel: BookViewModel
+    private lateinit var loggedInViewModel: LoggedInViewModel
     private val args by navArgs<BookFragmentArgs>()
     lateinit var app : readNoteApp
     var book = BookModel()
@@ -47,6 +49,7 @@ class BookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
         _fragBinding = FragmentBookBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -92,7 +95,8 @@ class BookFragment : Fragment() {
                     findNavController().navigateUp()
                 }
                 else {
-                    bookViewModel.addBook(book)
+                    Timber.i("TESST ${book.title}")
+                    bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
                 }
                 }
             else {
@@ -107,7 +111,7 @@ class BookFragment : Fragment() {
         }
 
         layout.deleteBook.setOnClickListener() {
-            app.data.deleteBook(book)
+//            app.data.deleteBook(book)
         }
 
         registerImagePickerCallback()
@@ -142,7 +146,8 @@ class BookFragment : Fragment() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            book.image = result.data!!.data!!
+                            val uri = result.data!!.data!!
+                            book.image = uri.toString()
                             Picasso.get()
                                 .load(book.image)
                                 .into(fragBinding.bookCover)

@@ -2,6 +2,7 @@ package ie.wit.donationx.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ie.wit.readnote.databinding.CardBookBinding
@@ -34,7 +35,7 @@ class BookAdapter constructor(private var books: List<BookModel>, private val li
 
         fun bind(book: BookModel, listener: BookListener) {
             binding.book = book
-            Picasso.get().load(book.image).fit().into(binding.bookCover)
+            Picasso.get().load(book.image.toUri()).fit().into(binding.bookCover)
             binding.root.setOnClickListener { listener.onBookClick(book)
             binding.executePendingBindings()
             }

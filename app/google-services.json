@@ -8,36 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:638056168061:android:a830603c6c749ba177cf14",
-        "android_client_info": {
-          "package_name": "ie.wit.DonationX"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "638056168061-55o2i45d7aaqhpgcv18kvabsllrugsil.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA1oQ3wqT1xT4yUbHlaW6dRr1kwk0Cf_fw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "638056168061-55o2i45d7aaqhpgcv18kvabsllrugsil.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:638056168061:android:ec0bda459b213a9077cf14",
+        "mobilesdk_app_id": "1:638056168061:android:4d8618b465ba8a6d77cf14",
         "android_client_info": {
           "package_name": "ie.wit.readnote"
         }

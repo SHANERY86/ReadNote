@@ -3,8 +3,9 @@ package ie.wit.readnote.ui.book
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
 import ie.wit.readnote.models.BookModel
-import ie.wit.readnote.models.DataManager
+import ie.wit.readnote.models.FirebaseDBManager
 import timber.log.Timber
 
 class BookViewModel : ViewModel() {
@@ -19,9 +20,9 @@ class BookViewModel : ViewModel() {
         get() = book
         set(value) {book.value = value.value}
 
-    fun addBook(book: BookModel) {
+    fun addBook(firebaseUser: MutableLiveData<FirebaseUser>, book: BookModel) {
         status.value = try {
-            DataManager.createBook(book)
+            FirebaseDBManager.createBook(firebaseUser, book)
             true
         } catch (e: IllegalArgumentException) {
             false
@@ -29,18 +30,17 @@ class BookViewModel : ViewModel() {
     }
 
     fun seeBook(bookid: Long) {
-        book.value = DataManager.findBookById(bookid)
+//        book.value = FirebaseDBManager.findBookById(bookid)
     }
 
     fun updateBook(bookid: Long, book: BookModel) {
         Timber.i("BOOK TEST: $book")
-            DataManager.updateBook(bookid, book)
-            DataManager.logAll()
+//            FirebaseDBManager.updateBook(bookid, book)
         }
 
-    fun findBook(bookid: Long) : BookModel? {
-        val book = DataManager.findBookById(bookid)
+/*    fun findBook(bookid: Long) : BookModel? {
+        val book = FirebaseDBManager.findBookById(bookid)
         if (book != null) return book
         else return null
-    }
+    } */
 }

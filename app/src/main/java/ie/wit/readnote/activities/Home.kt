@@ -16,6 +16,7 @@ import ie.wit.readnote.R
 import ie.wit.readnote.databinding.HomeBinding
 import ie.wit.readnote.databinding.NavHeaderBinding
 import ie.wit.readnote.ui.auth.Login
+import timber.log.Timber
 
 class Home : AppCompatActivity() {
 

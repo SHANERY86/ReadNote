@@ -12,5 +12,10 @@
             android:id="@+id/bookListFragment"
             android:icon="@drawable/ic_baseline_view_list_24"
             android:title="@string/action_booklist" />
+        <item
+            android:id="@+id/signout"
+            android:icon="@android:drawable/ic_menu_revert"
+            android:onClick="signOut"
+            android:title="@string/sign_out" />
     </group>
 </menu>

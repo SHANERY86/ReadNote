@@ -1,10 +1,40 @@
 {
   "project_info": {
     "project_number": "638056168061",
+    "firebase_url": "https://readnote-1d2cf-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "readnote-1d2cf",
     "storage_bucket": "readnote-1d2cf.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638056168061:android:a830603c6c749ba177cf14",
+        "android_client_info": {
+          "package_name": "ie.wit.DonationX"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638056168061-55o2i45d7aaqhpgcv18kvabsllrugsil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1oQ3wqT1xT4yUbHlaW6dRr1kwk0Cf_fw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638056168061-55o2i45d7aaqhpgcv18kvabsllrugsil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:638056168061:android:ec0bda459b213a9077cf14",

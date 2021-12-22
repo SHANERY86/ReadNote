@@ -42,7 +42,6 @@ class FirebaseAuthManager(application: Application) {
     }
 
     fun register(email: String?, password: String?) {
-        Timber.i("TEST AM HERE WITH $email AND $password")
         firebaseAuth!!.createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener(application!!.mainExecutor, { task ->
                 if (task.isSuccessful) {

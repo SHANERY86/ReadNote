@@ -42,6 +42,7 @@ class Login : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         loginViewModel.liveFirebaseUser.observe(this, Observer
         { firebaseUser -> if (firebaseUser != null)
+            Timber.i("USER: ${firebaseUser.email}" )
             startActivity(Intent(this, Home::class.java)) })
 
         loginViewModel.firebaseAuthManager.errorStatus.observe(this, Observer

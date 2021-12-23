@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class BookModel(var uid : String? = "",
                      var title: String = "",
                      var image: String = "",
+                     var notes: ArrayList<NoteModel> = ArrayList(),
                     var email: String? = "joe@bloggs.com") : Parcelable
 {
     @Exclude

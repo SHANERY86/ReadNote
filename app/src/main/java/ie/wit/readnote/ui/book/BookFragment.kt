@@ -24,6 +24,7 @@ import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.NoteModel
 import ie.wit.readnote.models.UserModel
 import ie.wit.readnote.ui.bookList.BookListViewModel
 import ie.wit.readnote.ui.noteList.NoteListFragmentDirections
@@ -39,8 +40,9 @@ class BookFragment : Fragment() {
     private val bookListViewModel : BookListViewModel by activityViewModels()
     private val args by navArgs<BookFragmentArgs>()
     lateinit var app : readNoteApp
-    var book = BookModel()
     var user = UserModel()
+    var notes = ArrayList<NoteModel>()
+    var book = BookModel()
     var imageChange = false
 
 
@@ -95,7 +97,7 @@ class BookFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 else {
-                    bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                    bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, notes = notes, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
                 }
                 }
             else {

@@ -54,5 +54,21 @@
         <action
             android:id="@+id/action_noteListFragment_to_bookFragment"
             app:destination="@id/bookFragment" />
+        <action
+            android:id="@+id/action_noteListFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="ie.wit.readnote.ui.note.NoteFragment"
+        android:label="note_fragment"
+        tools:layout="@layout/note_fragment" >
+        <argument
+            android:name="bookid"
+            app:argType="string"
+            android:defaultValue="-" />
+        <action
+            android:id="@+id/action_noteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
     </fragment>
 </navigation>

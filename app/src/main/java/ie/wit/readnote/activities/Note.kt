@@ -29,7 +29,7 @@ class Note : AppCompatActivity() {
     lateinit var app : readNoteApp
     var note = NoteModel()
     var bookId : Long = 0L
-    var book = BookModel()
+//    var book = BookModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         if (activitiesLaunched.incrementAndGet() > 1) { finish(); }
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -58,10 +58,10 @@ class Note : AppCompatActivity() {
             deleteButton.setVisibility(View.VISIBLE)
         }
 
-        if(note.location != null) {
+/*        if(note.location != null) {
             val addLocButton: Button = findViewById(R.id.addLocation)
             addLocButton.setText(R.string.button_locationPresent)
-        }
+        } */
 
         binding.addNote.setOnClickListener() {
             note.content = binding.addContent.text.toString()
@@ -87,9 +87,9 @@ class Note : AppCompatActivity() {
 
         binding.addLocation.setOnClickListener() {
             var location = LocationModel( 52.245696, -7.139102, 5f)
-            if (note.location != null) {
+/*            if (note.location != null) {
                 location = note.location!!
-            }
+            } */
             val launcherIntent = Intent(this, Maps::class.java)
                 .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
@@ -113,7 +113,7 @@ class Note : AppCompatActivity() {
                             i("Got Location ${result.data.toString()}")
                             val location = result.data!!.extras?.getParcelable<LocationModel>("location")!!
                             i("Location == $location")
-                            note.location = location
+//                            note.location = location
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }

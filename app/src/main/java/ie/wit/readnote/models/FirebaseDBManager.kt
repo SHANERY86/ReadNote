@@ -20,6 +20,7 @@ object FirebaseDBManager : BookStore {
                     val localList = ArrayList<BookModel>()
                     val children = snapshot.children
                     children.forEach {
+                        Timber.i("DB TEST ${it}")
                         val book = it.getValue(BookModel::class.java)
                         localList.add(book!!)
                     }
@@ -86,9 +87,57 @@ object FirebaseDBManager : BookStore {
         database.updateChildren(childDelete)
     }
 
-    override fun createNote(book: BookModel, note: NoteModel) {
-        TODO("Not yet implemented")
+    override fun createNote(userid: String, bookid: String, note: NoteModel) {
+        val key = database.child("notes").push().key
+        if (key == null) {
+            Timber.i("Firebase Error : Key Empty")
+            return
+        }
+        note.uid = key
+        val noteValues = note.toMap()
+        val childAdd = HashMap<String, Any>()
+        childAdd["/notes/$bookid/$key"] = noteValues
+        childAdd["/user-notes/$userid/$bookid/$key"] = noteValues
+
+        database.updateChildren(childAdd)
     }
+
+    override fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<List<NoteModel>>) {
+
+                database.child("user-notes").child(userid).child(bookid)
+                .addValueEventListener(object: ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        Timber.i("Firebase readNote error : ${error.message}")
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val localList = ArrayList<NoteModel>()
+                        val children = snapshot.children
+                        children.forEach {
+                            Timber.i("DB TEST ${it}")
+                            val note = it.getValue(NoteModel::class.java)
+                            localList.add(note!!)
+                        }
+                        database.child("user-books").child(userid)
+                            .removeEventListener(this)
+
+                        notes.value = localList
+                    }
+                })
+    }
+
+ /*               }                })
+        var query = database.child("user-notes").child(userid)
+            .orderByChild("bookid").equalTo(bookid)
+            var result = query.get().result
+        val localList = ArrayList<NoteModel>()
+        result.children.forEach {
+            val note = it.getValue(NoteModel::class.java)
+            Timber.i("TEST NOTE $note")
+            localList.add(note!!)
+        }
+        notes.value = localList */
+
 
     override fun updateNote(book: BookModel, note: NoteModel) {
         TODO("Not yet implemented")

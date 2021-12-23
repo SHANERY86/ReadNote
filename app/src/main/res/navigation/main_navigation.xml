@@ -11,8 +11,8 @@
         android:label="@string/action_booklist"
         tools:layout="@layout/fragment_book_list" >
         <action
-            android:id="@+id/action_bookListFragment_to_bookFragment2"
-            app:destination="@id/bookFragment" />
+            android:id="@+id/action_bookListFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookFragment"
@@ -23,6 +23,9 @@
             android:name="bookid"
             app:argType="string"
             android:defaultValue="-" />
+        <action
+            android:id="@+id/action_bookFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -38,5 +41,18 @@
             android:name="bookid"
             app:argType="string"
             android:defaultValue="-" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteListFragment"
+        android:name="ie.wit.readnote.ui.noteList.NoteListFragment"
+        android:label="note_list_fragment"
+        tools:layout="@layout/note_list_fragment" >
+        <argument
+            android:name="bookid"
+            app:argType="string"
+            android:defaultValue="-" />
+        <action
+            android:id="@+id/action_noteListFragment_to_bookFragment"
+            app:destination="@id/bookFragment" />
     </fragment>
 </navigation>

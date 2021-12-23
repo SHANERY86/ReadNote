@@ -75,7 +75,7 @@ class BookListFragment : Fragment(), BookListener {
     override fun onBookClick(book: BookModel) {
         Timber.i("TEST USER: ${loggedInViewModel.liveFirebaseUser.value?.uid!!}")
         Timber.i("TEST BOOK ID: ${book.uid!!}")
-        val action = BookListFragmentDirections.actionBookListFragmentToBookFragment2(book.uid!!)
+        val action = BookListFragmentDirections.actionBookListFragmentToNoteListFragment(book.uid!!)
         findNavController().navigate(action)
     }
 

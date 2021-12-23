@@ -36,7 +36,6 @@ class BookViewModel : ViewModel() {
     }
 
     fun updateBook(userid: String, bookid: String, book: BookModel) {
-        Timber.i("BOOK TEST: $book")
         try {
             FirebaseDBManager.updateBook(userid, bookid, book)
         }
@@ -45,13 +44,14 @@ class BookViewModel : ViewModel() {
         }
         }
 
-    fun changeImageURI(uri: String) {
-
+    fun deleteBook(userid: String, id: String) {
+        try {
+            FirebaseDBManager.deleteBook(userid,id)
+            Timber.i("Book Delete Success")
+        }
+        catch (e: Exception) {
+            Timber.i("Book Delete Error : $e.message")
+        }
     }
 
-/*    fun findBook(bookid: Long) : BookModel? {
-        val book = FirebaseDBManager.findBookById(bookid)
-        if (book != null) return book
-        else return null
-    } */
 }

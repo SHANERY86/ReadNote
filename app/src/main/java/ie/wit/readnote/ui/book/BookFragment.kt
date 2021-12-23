@@ -79,6 +79,7 @@ class BookFragment : Fragment() {
         fragBinding.chooseImage.setText(R.string.button_changeCover)
         val uriString = bookViewModel.observableBook.value!!.image
         fragBinding.bookCover.setImageURI(uriString.toUri())
+        fragBinding.deleteBook.visibility = View.VISIBLE
     }
 
     fun setButtonListener(layout: FragmentBookBinding) {
@@ -107,7 +108,9 @@ class BookFragment : Fragment() {
         }
 
         layout.deleteBook.setOnClickListener() {
-//            app.data.deleteBook(book)
+            bookViewModel.deleteBook(loggedInViewModel.liveFirebaseUser.value?.uid!!,fragBinding.bookvm?.observableBook!!.value!!.uid!!)
+            bookListViewModel.load()
+            findNavController().navigateUp()
         }
 
         registerImagePickerCallback()

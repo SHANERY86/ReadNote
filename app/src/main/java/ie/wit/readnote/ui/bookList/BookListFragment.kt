@@ -73,16 +73,16 @@ class BookListFragment : Fragment(), BookListener {
     }
 
     override fun onBookClick(book: BookModel) {
-//        val bookid = book.id
-//        val action = BookListFragmentDirections.actionBookListFragmentToBookFragment(bookid)
-//        findNavController().navigate(action)
+        Timber.i("TEST USER: ${loggedInViewModel.liveFirebaseUser.value?.uid!!}")
+        Timber.i("TEST BOOK ID: ${book.uid!!}")
+        val action = BookListFragmentDirections.actionBookListFragmentToBookFragment2(book.uid!!)
+        findNavController().navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
-                Timber.i("TEST AUTH USER ${loggedInViewModel.liveFirebaseUser.value?.uid!!}")
                 bookListViewModel.liveFirebaseUser.value = firebaseUser
                 bookListViewModel.load()
             }

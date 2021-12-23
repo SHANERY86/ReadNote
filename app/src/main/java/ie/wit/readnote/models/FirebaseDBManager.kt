@@ -35,8 +35,14 @@ object FirebaseDBManager : BookStore {
         userid: String,
         bookid: String,
         book: MutableLiveData<BookModel>
-    ): BookModel? {
-        TODO("Not yet implemented")
+    ) {
+        database.child("user-books").child(userid)
+            .child(bookid).get().addOnSuccessListener {
+                book.value = it.getValue(BookModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
     }
 
     override fun findBooks(bookList: MutableLiveData<List<BookModel>>): List<BookModel> {
@@ -63,7 +69,13 @@ object FirebaseDBManager : BookStore {
     }
 
     override fun updateBook(userid: String, bookid: String, book: BookModel) {
-        TODO("Not yet implemented")
+        val bookValues = book.toMap()
+        bookValues.entries.forEach { Timber.i("TEST DB $it") }
+        val childUpdate : MutableMap<String, Any?> = HashMap()
+        childUpdate["books/$bookid"] = bookValues
+        childUpdate["user-books/$userid/$bookid"] = bookValues
+
+        database.updateChildren(childUpdate)
     }
 
     override fun deleteBook(userid: String, book: BookModel) {

@@ -13,6 +13,8 @@ class BookViewModel : ViewModel() {
     private val status = MutableLiveData<Boolean>()
     private val book = MutableLiveData<BookModel>()
 
+    var liveFirebaseUser = MutableLiveData<FirebaseUser>()
+
     val observableStatus: LiveData<Boolean>
         get() = status
 
@@ -29,14 +31,23 @@ class BookViewModel : ViewModel() {
         }
     }
 
-    fun seeBook(bookid: Long) {
-//        book.value = FirebaseDBManager.findBookById(bookid)
+    fun getBook(userid: String, bookid: String) {
+        FirebaseDBManager.findBookById(userid,bookid,book)
     }
 
-    fun updateBook(bookid: Long, book: BookModel) {
+    fun updateBook(userid: String, bookid: String, book: BookModel) {
         Timber.i("BOOK TEST: $book")
-//            FirebaseDBManager.updateBook(bookid, book)
+        try {
+            FirebaseDBManager.updateBook(userid, bookid, book)
         }
+        catch (e: Exception) {
+            Timber.i("Detail update() Error : $e.message")
+        }
+        }
+
+    fun changeImageURI(uri: String) {
+
+    }
 
 /*    fun findBook(bookid: Long) : BookModel? {
         val book = FirebaseDBManager.findBookById(bookid)

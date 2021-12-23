@@ -6,12 +6,12 @@
     <data>
         <variable
             name="bookvm"
-            type="ie.wit.readnote.ui.book.BookViewModel" />
+            type="ie.wit.readnote.ui.detail.BookDetailViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.book.BookFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.BookDetailFragment">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -61,13 +61,13 @@
                     android:visibility="gone"/>
 
                 <Button
-                    android:id="@+id/chooseImage"
+                    android:id="@+id/changeImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:text="@string/add_coverImage"
+                    android:text="@string/button_changeCover"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -77,14 +77,14 @@
                     app:srcCompat="@mipmap/ic_launcher" />
 
                 <Button
-                    android:id="@+id/addBook"
+                    android:id="@+id/editBook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
-                    android:text="@string/add_book"
+                    android:text="@string/button_editBook"
                     android:textSize="16sp" />
 
                 <Button
@@ -103,6 +103,6 @@
             </LinearLayout>
         </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

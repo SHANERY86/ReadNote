@@ -27,9 +27,7 @@ import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
-import ie.wit.readnote.models.UserModel
 import ie.wit.readnote.ui.bookList.BookListViewModel
-import ie.wit.readnote.ui.noteList.NoteListFragmentDirections
 import org.wit.placemark.helpers.showImagePicker
 import timber.log.Timber
 
@@ -42,7 +40,6 @@ class BookFragment : Fragment() {
     private val bookListViewModel : BookListViewModel by activityViewModels()
     private val args by navArgs<BookFragmentArgs>()
     lateinit var app : readNoteApp
-    var user = UserModel()
     var notes = ArrayList<NoteModel>()
     var book = BookModel()
     var imageChange = false
@@ -118,7 +115,8 @@ class BookFragment : Fragment() {
         layout.deleteBook.setOnClickListener() {
             bookViewModel.deleteBook(loggedInViewModel.liveFirebaseUser.value?.uid!!,fragBinding.bookvm?.observableBook!!.value!!.uid!!)
             bookListViewModel.load()
-            findNavController().navigateUp()
+            val action = BookFragmentDirections.actionBookFragmentToBookListFragment()
+            findNavController().navigate(action)
         }
 
         registerImagePickerCallback()

@@ -1,11 +1,16 @@
 package ie.wit.readnote.ui.note
 
+import android.app.Application
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -28,6 +33,7 @@ class NoteFragment : Fragment() {
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private val bookListViewModel : BookListViewModel by activityViewModels()
+    lateinit var imm: InputMethodManager
 
 
     override fun onCreateView(
@@ -42,6 +48,11 @@ class NoteFragment : Fragment() {
            note -> note.let { render() }
       })
 
+        fragBinding.pagePicker.maxValue = 1000
+        fragBinding.pagePicker.minValue = 1
+        fragBinding.pagePicker.setOnValueChangedListener { _, _, newVal ->
+            fragBinding.addPageNumber.setText("$newVal") }
+
         fragBinding.addNote.setOnClickListener() {
             if (fragBinding.addContent.text.isNotEmpty()) {
                 val content = fragBinding.addContent.text.toString()
@@ -51,6 +62,8 @@ class NoteFragment : Fragment() {
                     NoteModel(content = content, pageNumber = pageNumber)
                 )
                 bookListViewModel.load()
+                imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 val action = NoteFragmentDirections.actionNoteFragmentToNoteListFragment(args.bookid)
                 findNavController().navigate(action)
             }

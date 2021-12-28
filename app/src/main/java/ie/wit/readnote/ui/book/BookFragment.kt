@@ -2,9 +2,11 @@ package ie.wit.readnote.ui.book
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -78,7 +80,7 @@ class BookFragment : Fragment() {
 
     private fun renderBook() {
         fragBinding.bookvm = bookViewModel
-        fragBinding.addBook.setText(R.string.button_editBook)
+        fragBinding.addBook.setText(R.string.button_saveBook)
         fragBinding.chooseImage.setText(R.string.button_changeCover)
         val uriString = bookViewModel.observableBook.value!!.image
         fragBinding.bookCover.setImageURI(uriString.toUri())
@@ -98,6 +100,8 @@ class BookFragment : Fragment() {
                 }
                 else {
                     bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, notes = notes, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                   var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 }
                 }
             else {

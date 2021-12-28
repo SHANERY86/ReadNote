@@ -45,12 +45,12 @@
     <fragment
         android:id="@+id/noteListFragment"
         android:name="ie.wit.readnote.ui.noteList.NoteListFragment"
-        android:label="note_list_fragment"
-        tools:layout="@layout/note_list_fragment" >
+        android:label="@string/action_notelist"
+        tools:layout="@layout/note_list_fragment">
         <argument
             android:name="bookid"
-            app:argType="string"
-            android:defaultValue="-" />
+            android:defaultValue="-"
+            app:argType="string" />
         <action
             android:id="@+id/action_noteListFragment_to_bookFragment"
             app:destination="@id/bookFragment" />
@@ -61,12 +61,12 @@
     <fragment
         android:id="@+id/noteFragment"
         android:name="ie.wit.readnote.ui.note.NoteFragment"
-        android:label="note_fragment"
-        tools:layout="@layout/note_fragment" >
+        android:label="@string/action_note"
+        tools:layout="@layout/note_fragment">
         <argument
             android:name="bookid"
-            app:argType="string"
-            android:defaultValue="-" />
+            android:defaultValue="-"
+            app:argType="string" />
         <action
             android:id="@+id/action_noteFragment_to_noteListFragment"
             app:destination="@id/noteListFragment" />

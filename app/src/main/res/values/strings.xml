@@ -28,6 +28,7 @@
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
     <string name="username">User Name</string>
+    <string name="email">E-Mail</string>
     <string name="password">Password</string>
     <string name="action_account">Account</string>
     <string name="button_updateAccount">UPDATE ACCOUNT</string>
@@ -35,4 +36,10 @@
     <string name="button_location">Add Location</string>
     <string name="title_activity_map">Map</string>
     <string name="button_locationPresent">See Location</string>
+    <string name="addBookError">Error : Couldn\'t Add Book...</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="placeholder_email">user@test.com</string>
+    <string name="sign_out">Sign Out</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

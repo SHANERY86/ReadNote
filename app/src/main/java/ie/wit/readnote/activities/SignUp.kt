@@ -29,7 +29,7 @@ class SignUp : AppCompatActivity() {
             val userNameEntry = signUpLayout.userName.text.toString()
             newUser.userName = signUpLayout.userName.text.toString()
             newUser.password = signUpLayout.password.text.toString()
-            val users = app.data.users
+/*            val users = app.data.users
             users.forEach { if(user.userName == userNameEntry) {
                 userFound = true
             } }
@@ -40,13 +40,13 @@ class SignUp : AppCompatActivity() {
                 i("USER CREATED $newUser")
                 i("LOGGED IN USER ${app.loggedInUser}")
                 setResult(RESULT_OK)
-                startActivity(Intent(this, BookList::class.java))
+  //              startActivity(Intent(this, BookList::class.java))
             }
             else {
                 Snackbar
                     .make(it, R.string.snackbar_UsernameTaken, Snackbar.LENGTH_LONG)
                     .show()
-            }
+            } */
         }
     }
 

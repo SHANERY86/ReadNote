@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/bookListFragment">
+
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="ie.wit.readnote.ui.bookList.BookListFragment"
+        android:label="@string/action_booklist"
+        tools:layout="@layout/fragment_book_list" >
+        <action
+            android:id="@+id/action_bookListFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="ie.wit.readnote.ui.book.BookFragment"
+        android:label="@string/action_addbook"
+        tools:layout="@layout/fragment_book" >
+        <argument
+            android:name="bookid"
+            app:argType="string"
+            android:defaultValue="-" />
+        <action
+            android:id="@+id/action_bookFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ie.wit.readnote.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="ie.wit.readnote.ui.detail.BookDetailFragment"
+        android:label="book_detail_fragment"
+        tools:layout="@layout/book_detail_fragment" >
+        <argument
+            android:name="bookid"
+            app:argType="string"
+            android:defaultValue="-" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteListFragment"
+        android:name="ie.wit.readnote.ui.noteList.NoteListFragment"
+        android:label="@string/action_notelist"
+        tools:layout="@layout/note_list_fragment">
+        <argument
+            android:name="bookid"
+            android:defaultValue="-"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noteListFragment_to_bookFragment"
+            app:destination="@id/bookFragment" />
+        <action
+            android:id="@+id/action_noteListFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="ie.wit.readnote.ui.note.NoteFragment"
+        android:label="@string/action_note"
+        tools:layout="@layout/note_fragment">
+        <argument
+            android:name="bookid"
+            android:defaultValue="-"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
+    </fragment>
+</navigation>

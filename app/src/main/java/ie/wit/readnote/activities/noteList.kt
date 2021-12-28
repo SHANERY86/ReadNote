@@ -29,9 +29,9 @@ class noteList : AppCompatActivity(), NoteListener {
         setContentView(noteListLayout.root)
         app = this.application as readNoteApp
         bookId = intent.getLongExtra("bookid",-1)
-        book = app.data.findBookById(bookId)!!
+//        book = app.data.findBookById(bookId)!!
         noteListLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        noteListLayout.recyclerView.adapter = NoteAdapter(book.notes, this)
+//        noteListLayout.recyclerView.adapter = NoteAdapter(book.notes, this)
         super.onCreate(savedInstanceState)
 
         noteListLayout.newNote.setOnClickListener {
@@ -41,7 +41,7 @@ class noteList : AppCompatActivity(), NoteListener {
         }
 
         noteListLayout.editBook.setOnClickListener {
-            intent = Intent(this,Book::class.java)
+//            intent = Intent(this,Book::class.java)
             intent.putExtra("bookid",bookId)
             startActivity(intent)
         }
@@ -52,9 +52,9 @@ class noteList : AppCompatActivity(), NoteListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+ /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return app.getMenuOptions(this,item)
-    }
+    } */
 
     override fun onNoteClick(note: NoteModel) {
         super.onNoteClick(note)
@@ -62,7 +62,7 @@ class noteList : AppCompatActivity(), NoteListener {
         val intent: Intent
         intent = Intent(this,Note::class.java)
         intent.putExtra("note_edit",noteToEdit)
-        intent.putExtra("bookid",book.id)
+//        intent.putExtra("bookid",book.id)
         startActivity(intent)
     }
 }

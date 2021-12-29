@@ -23,6 +23,7 @@ import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.databinding.NoteListFragmentBinding
 import ie.wit.readnote.models.BookModel
+import ie.wit.readnote.models.FirebaseDBManager
 import ie.wit.readnote.models.NoteModel
 import ie.wit.readnote.ui.book.BookFragmentArgs
 import ie.wit.readnote.ui.book.BookViewModel
@@ -63,7 +64,7 @@ class NoteListFragment : Fragment(), NoteListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = fragBinding.recyclerView.adapter as NoteAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
-
+                FirebaseDBManager.deleteNote(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid, viewHolder.itemView.tag as String)
             }
         }
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)

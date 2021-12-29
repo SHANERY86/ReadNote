@@ -12,6 +12,6 @@ interface BookStore {
     fun deleteBook(userid: String, bookid: String)
     fun createNote(userid: String, bookid: String, note: NoteModel)
     fun updateNote(book: BookModel, note: NoteModel)
-    fun deleteNote(book: BookModel, note: NoteModel)
+    fun deleteNote(userid: String, bookid: String, noteid: String)
     fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>)
 }

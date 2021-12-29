@@ -1,6 +1,7 @@
 package ie.wit.readnote.ui.noteList
 
 import SwipeToDeleteCallback
+import SwipeToEditCallback
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -64,13 +65,29 @@ class NoteListFragment : Fragment(), NoteListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = fragBinding.recyclerView.adapter as NoteAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
-                FirebaseDBManager.deleteNote(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid, viewHolder.itemView.tag as String)
+                val note = viewHolder.itemView.tag as NoteModel
+                FirebaseDBManager.deleteNote(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid, note.uid)
             }
         }
+
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
         itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onNoteClick(viewHolder.itemView.tag as NoteModel)
+            }
+        }
+
+        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
+        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
+
         return root
     }
+
+/*    override fun onNoteClick(noteid: String){
+
+    } */
 
     private fun render(notes: ArrayList<NoteModel>) {
         fragBinding.recyclerView.adapter = NoteAdapter(notes, this)
@@ -80,6 +97,7 @@ class NoteListFragment : Fragment(), NoteListener {
         super.onResume()
             noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!,args.bookid)
     }
+
 
 
 }

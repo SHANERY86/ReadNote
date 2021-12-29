@@ -10,7 +10,7 @@ import ie.wit.readnote.databinding.CardNoteBinding
 import ie.wit.readnote.models.NoteModel
 
 interface NoteListener {
-    fun onNoteClick(note: NoteModel){
+    fun onNoteClick(noteid: NoteModel){
     }
 }
 
@@ -40,7 +40,7 @@ class NoteAdapter constructor(private var notes: ArrayList<NoteModel>, private v
     inner class MainHolder(val binding : CardNoteBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: NoteModel, listener: NoteListener) {
-            binding.root.tag = note.uid
+            binding.root.tag = note
             binding.noteContent.text = note.content
             binding.pageNumber.text = note.pageNumber
             if (note.pageNumber.isNotEmpty()){

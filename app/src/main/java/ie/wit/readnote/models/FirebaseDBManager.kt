@@ -80,6 +80,8 @@ object FirebaseDBManager : BookStore {
         val childDelete : MutableMap<String, Any?> = HashMap()
         childDelete["/books/$bookid"] = null
         childDelete["/user-books/$userid/$bookid"] = null
+        childDelete["/notes/$bookid"] = null
+        childDelete["/user-notes/$userid/$bookid"] = null
 
         database.updateChildren(childDelete)
     }
@@ -128,7 +130,7 @@ object FirebaseDBManager : BookStore {
 
     override fun deleteNote(userid: String, bookid: String, noteid: String) {
         val childDelete : MutableMap<String, Any?> = HashMap()
-        childDelete["/notes/$noteid"] = null
+        childDelete["/notes/$bookid/$noteid"] = null
         childDelete["/user-notes/$userid/$bookid/$noteid"] = null
 
         database.updateChildren(childDelete)

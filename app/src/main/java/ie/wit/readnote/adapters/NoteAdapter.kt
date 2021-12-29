@@ -14,7 +14,7 @@ interface NoteListener {
     }
 }
 
-class NoteAdapter constructor(private var notes: List<NoteModel>, private val listener: NoteListener)
+class NoteAdapter constructor(private var notes: ArrayList<NoteModel>, private val listener: NoteListener)
     : RecyclerView.Adapter<NoteAdapter.MainHolder>() {
 
 
@@ -28,6 +28,11 @@ class NoteAdapter constructor(private var notes: List<NoteModel>, private val li
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val note = notes[holder.adapterPosition]
         holder.bind(note, listener)
+    }
+
+    fun removeAt(position: Int) {
+        notes.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     override fun getItemCount(): Int = notes.size

@@ -1,5 +1,6 @@
 package ie.wit.readnote.ui.noteList
 
+import SwipeToDeleteCallback
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ie.wit.donationx.adapters.BookAdapter
 import ie.wit.donationx.adapters.NoteAdapter
 import ie.wit.donationx.adapters.NoteListener
@@ -55,10 +58,20 @@ class NoteListFragment : Fragment(), NoteListener {
             val action = NoteListFragmentDirections.actionNoteListFragmentToNoteFragment(args.bookid)
             findNavController().navigate(action)
         }
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = fragBinding.recyclerView.adapter as NoteAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
         return root
     }
 
-    private fun render(notes: List<NoteModel>) {
+    private fun render(notes: ArrayList<NoteModel>) {
         fragBinding.recyclerView.adapter = NoteAdapter(notes, this)
     }
 

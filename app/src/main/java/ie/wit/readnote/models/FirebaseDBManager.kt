@@ -9,7 +9,6 @@ object FirebaseDBManager : BookStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findUserBooks(userid: String, bookList: MutableLiveData<List<BookModel>>) {
-                Timber.i("TEST USER ID $userid")
                 database.child("user-books").child(userid)
                 .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -20,7 +19,6 @@ object FirebaseDBManager : BookStore {
                     val localList = ArrayList<BookModel>()
                     val children = snapshot.children
                     children.forEach {
-                        Timber.i("DB TEST ${it}")
                         val book = it.getValue(BookModel::class.java)
                         localList.add(book!!)
                     }
@@ -71,7 +69,6 @@ object FirebaseDBManager : BookStore {
 
     override fun updateBook(userid: String, bookid: String, book: BookModel) {
         val bookValues = book.toMap()
-        bookValues.entries.forEach { Timber.i("TEST DB $it") }
         val childUpdate : MutableMap<String, Any?> = HashMap()
         childUpdate["books/$bookid"] = bookValues
         childUpdate["user-books/$userid/$bookid"] = bookValues
@@ -102,7 +99,7 @@ object FirebaseDBManager : BookStore {
         database.updateChildren(childAdd)
     }
 
-    override fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<List<NoteModel>>) {
+    override fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>) {
 
                 database.child("user-notes").child(userid).child(bookid)
                 .addValueEventListener(object: ValueEventListener {
@@ -114,7 +111,6 @@ object FirebaseDBManager : BookStore {
                         val localList = ArrayList<NoteModel>()
                         val children = snapshot.children
                         children.forEach {
-                            Timber.i("DB TEST ${it}")
                             val note = it.getValue(NoteModel::class.java)
                             localList.add(note!!)
                         }
@@ -125,19 +121,6 @@ object FirebaseDBManager : BookStore {
                     }
                 })
     }
-
- /*               }                })
-        var query = database.child("user-notes").child(userid)
-            .orderByChild("bookid").equalTo(bookid)
-            var result = query.get().result
-        val localList = ArrayList<NoteModel>()
-        result.children.forEach {
-            val note = it.getValue(NoteModel::class.java)
-            Timber.i("TEST NOTE $note")
-            localList.add(note!!)
-        }
-        notes.value = localList */
-
 
     override fun updateNote(book: BookModel, note: NoteModel) {
         TODO("Not yet implemented")

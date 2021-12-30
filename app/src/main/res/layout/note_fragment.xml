@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.note.NoteFragment">
 
+
     <EditText
         android:id="@+id/addPageNumber"
         android:layout_width="100dp"
@@ -70,23 +71,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.3"/>
 
-    <Button
-        android:id="@+id/addLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_alignEnd="@+id/addContent"
-        android:layout_below="@+id/addContent"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:text="@string/button_location"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
 
     <Button
         android:id="@+id/addNote"
@@ -104,7 +88,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <Button
         android:id="@+id/deleteNote"
@@ -122,6 +106,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mark_important"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        />
+
+    <ToggleButton
+        android:id="@+id/toggle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:textOff="@string/toggle_no"
+        android:textOn="@string/toggle_yes"
+        tools:layout_editor_absoluteX="257dp"
+        tools:layout_editor_absoluteY="472dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.6" />
 

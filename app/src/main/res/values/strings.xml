@@ -42,4 +42,7 @@
     <string name="sign_out">Sign Out</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toggle_yes">YES</string>
+    <string name="toggle_no">NO</string>
+    <string name="mark_important">Mark as Important</string>
 </resources>

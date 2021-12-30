@@ -82,7 +82,7 @@ class NoteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        noteViewModel.getNote(args.noteid, args.bookid)
+        noteViewModel.getNote(loggedInViewModel.liveFirebaseUser.value!!.uid,args.bookid,args.noteid)
         if (args.noteid != "-") {
             fragBinding.addNote.setText(R.string.button_saveNote)
         }

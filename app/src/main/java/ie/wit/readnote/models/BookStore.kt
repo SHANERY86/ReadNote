@@ -13,5 +13,5 @@ interface BookStore {
     fun updateNote(userid: String, bookid: String, noteid: String, note: NoteModel)
     fun deleteNote(userid: String, bookid: String, noteid: String)
     fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>)
-    fun findNoteById(noteid: String, bookid: String, note: MutableLiveData<NoteModel>)
+    fun findNoteById(userid: String, bookid: String, noteid: String, note: MutableLiveData<NoteModel>)
 }

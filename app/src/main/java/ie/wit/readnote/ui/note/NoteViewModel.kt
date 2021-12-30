@@ -16,9 +16,9 @@ class NoteViewModel : ViewModel() {
         get() = note
         set(value) {note.value = value.value}
 
-    fun getNote(noteid: String, bookid: String) {
+    fun getNote(userid: String, bookid: String, noteid: String,) {
         try {
-            FirebaseDBManager.findNoteById(noteid, bookid, note)
+            FirebaseDBManager.findNoteById(userid, bookid, noteid, note)
             Timber.i("Detail getNote() Success : ${
                 note.value.toString()}")
         }

@@ -9,7 +9,6 @@ object FirebaseDBManager : BookStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findUserBooks(userid: String, bookList: MutableLiveData<List<BookModel>>) {
-                Timber.i("TEST USER ID $userid")
                 database.child("user-books").child(userid)
                 .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -20,7 +19,6 @@ object FirebaseDBManager : BookStore {
                     val localList = ArrayList<BookModel>()
                     val children = snapshot.children
                     children.forEach {
-                        Timber.i("DB TEST ${it}")
                         val book = it.getValue(BookModel::class.java)
                         localList.add(book!!)
                     }
@@ -46,10 +44,6 @@ object FirebaseDBManager : BookStore {
             }
     }
 
-    override fun findBooks(bookList: MutableLiveData<List<BookModel>>): List<BookModel> {
-        TODO("Not yet implemented")
-    }
-
     override fun createBook(firebaseUser: MutableLiveData<FirebaseUser>, book: BookModel) {
         Timber.i("Firebase DB Reference : $database")
 
@@ -71,7 +65,6 @@ object FirebaseDBManager : BookStore {
 
     override fun updateBook(userid: String, bookid: String, book: BookModel) {
         val bookValues = book.toMap()
-        bookValues.entries.forEach { Timber.i("TEST DB $it") }
         val childUpdate : MutableMap<String, Any?> = HashMap()
         childUpdate["books/$bookid"] = bookValues
         childUpdate["user-books/$userid/$bookid"] = bookValues
@@ -83,6 +76,8 @@ object FirebaseDBManager : BookStore {
         val childDelete : MutableMap<String, Any?> = HashMap()
         childDelete["/books/$bookid"] = null
         childDelete["/user-books/$userid/$bookid"] = null
+        childDelete["/notes/$bookid"] = null
+        childDelete["/user-notes/$userid/$bookid"] = null
 
         database.updateChildren(childDelete)
     }
@@ -102,7 +97,7 @@ object FirebaseDBManager : BookStore {
         database.updateChildren(childAdd)
     }
 
-    override fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<List<NoteModel>>) {
+    override fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>) {
 
                 database.child("user-notes").child(userid).child(bookid)
                 .addValueEventListener(object: ValueEventListener {
@@ -114,7 +109,6 @@ object FirebaseDBManager : BookStore {
                         val localList = ArrayList<NoteModel>()
                         val children = snapshot.children
                         children.forEach {
-                            Timber.i("DB TEST ${it}")
                             val note = it.getValue(NoteModel::class.java)
                             localList.add(note!!)
                         }
@@ -126,25 +120,32 @@ object FirebaseDBManager : BookStore {
                 })
     }
 
- /*               }                })
-        var query = database.child("user-notes").child(userid)
-            .orderByChild("bookid").equalTo(bookid)
-            var result = query.get().result
-        val localList = ArrayList<NoteModel>()
-        result.children.forEach {
-            val note = it.getValue(NoteModel::class.java)
-            Timber.i("TEST NOTE $note")
-            localList.add(note!!)
-        }
-        notes.value = localList */
-
-
-    override fun updateNote(book: BookModel, note: NoteModel) {
-        TODO("Not yet implemented")
+    override fun findNoteById(noteid: String, bookid: String, note: MutableLiveData<NoteModel>) {
+        database.child("notes").child(bookid).child(noteid)
+            .get().addOnSuccessListener {
+                note.value = it.getValue(NoteModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
     }
 
-    override fun deleteNote(book: BookModel, note: NoteModel) {
-        TODO("Not yet implemented")
+    override fun updateNote(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        val noteValues = note.toMap()
+        val childUpdate : MutableMap<String, Any?> = HashMap()
+        childUpdate["notes/$bookid/$noteid"] = noteValues
+        childUpdate["user-notes/$userid/$bookid/$noteid"] = noteValues
+
+        database.updateChildren(childUpdate)
     }
+
+    override fun deleteNote(userid: String, bookid: String, noteid: String) {
+        val childDelete : MutableMap<String, Any?> = HashMap()
+        childDelete["/notes/$bookid/$noteid"] = null
+        childDelete["/user-notes/$userid/$bookid/$noteid"] = null
+
+        database.updateChildren(childDelete)
+    }
+
 
 }

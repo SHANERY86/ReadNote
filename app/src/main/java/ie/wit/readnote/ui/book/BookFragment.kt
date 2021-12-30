@@ -97,7 +97,7 @@ class BookFragment : Fragment() {
                 }
                 else {
                     bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, notes = notes, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
-                   var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 }
                 }

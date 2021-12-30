@@ -30,7 +30,7 @@ class NoteFragment : Fragment() {
     private lateinit var noteViewModel: NoteViewModel
     private var _fragBinding: NoteFragmentBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private val args by navArgs<BookFragmentArgs>()
+    private val args by navArgs<NoteFragmentArgs>()
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private val bookListViewModel : BookListViewModel by activityViewModels()
     lateinit var imm: InputMethodManager
@@ -45,7 +45,7 @@ class NoteFragment : Fragment() {
 
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
        noteViewModel.observableNote.observe(viewLifecycleOwner, Observer {
-           note -> note.let { render() }
+           note -> note?.let { render() }
       })
 
         fragBinding.pagePicker.maxValue = 1000
@@ -57,10 +57,14 @@ class NoteFragment : Fragment() {
             if (fragBinding.addContent.text.isNotEmpty()) {
                 val content = fragBinding.addContent.text.toString()
                 val pageNumber = fragBinding.addPageNumber.text.toString()
+                if(args.noteid != "-") {
+                    noteViewModel.updateNote(loggedInViewModel.liveFirebaseUser.value!!.uid!!,args.bookid,args.noteid,noteViewModel.observableNote.value!!)
+                }
+                else {
                 noteViewModel.makeNote(
                     loggedInViewModel.liveFirebaseUser.value?.uid!!, args.bookid,
                     NoteModel(content = content, pageNumber = pageNumber)
-                )
+                )}
                 bookListViewModel.load()
                 imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
@@ -68,6 +72,7 @@ class NoteFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
+
         return root
     }
 
@@ -75,7 +80,12 @@ class NoteFragment : Fragment() {
         fragBinding.notevm = noteViewModel
     }
 
-
-
+    override fun onResume() {
+        super.onResume()
+        noteViewModel.getNote(args.noteid, args.bookid)
+        if (args.noteid != "-") {
+            fragBinding.addNote.setText(R.string.button_saveNote)
+        }
+    }
 
 }

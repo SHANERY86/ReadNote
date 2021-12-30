@@ -11,9 +11,9 @@ import java.lang.Exception
 
 class NoteListViewModel : ViewModel() {
     private val noteList =
-        MutableLiveData<List<NoteModel>>()
+        MutableLiveData<ArrayList<NoteModel>>()
 
-    val observableNotesList: LiveData<List<NoteModel>>
+    val observableNotesList: LiveData<ArrayList<NoteModel>>
         get() = noteList
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()

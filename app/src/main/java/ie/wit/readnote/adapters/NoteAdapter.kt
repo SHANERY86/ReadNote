@@ -14,7 +14,7 @@ interface NoteListener {
     }
 }
 
-class NoteAdapter constructor(private var notes: List<NoteModel>, private val listener: NoteListener)
+class NoteAdapter constructor(private var notes: ArrayList<NoteModel>, private val listener: NoteListener)
     : RecyclerView.Adapter<NoteAdapter.MainHolder>() {
 
 
@@ -30,11 +30,17 @@ class NoteAdapter constructor(private var notes: List<NoteModel>, private val li
         holder.bind(note, listener)
     }
 
+    fun removeAt(position: Int) {
+        notes.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = notes.size
 
     inner class MainHolder(val binding : CardNoteBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: NoteModel, listener: NoteListener) {
+            binding.root.tag = note
             binding.noteContent.text = note.content
             binding.pageNumber.text = note.pageNumber
             if (note.pageNumber.isNotEmpty()){

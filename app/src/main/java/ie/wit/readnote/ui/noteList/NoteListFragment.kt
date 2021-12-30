@@ -85,9 +85,10 @@ class NoteListFragment : Fragment(), NoteListener {
         return root
     }
 
-/*    override fun onNoteClick(noteid: String){
-
-    } */
+    override fun onNoteClick(note: NoteModel){
+            val action = NoteListFragmentDirections.actionNoteListFragmentToNoteFragment(args.bookid,note.uid)
+            findNavController().navigate(action)
+    }
 
     private fun render(notes: ArrayList<NoteModel>) {
         fragBinding.recyclerView.adapter = NoteAdapter(notes, this)

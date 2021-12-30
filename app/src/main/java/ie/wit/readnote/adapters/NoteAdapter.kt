@@ -10,7 +10,7 @@ import ie.wit.readnote.databinding.CardNoteBinding
 import ie.wit.readnote.models.NoteModel
 
 interface NoteListener {
-    fun onNoteClick(noteid: NoteModel){
+    fun onNoteClick(note: NoteModel){
     }
 }
 

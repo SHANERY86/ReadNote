@@ -70,5 +70,9 @@
         <action
             android:id="@+id/action_noteFragment_to_noteListFragment"
             app:destination="@id/noteListFragment" />
+        <argument
+            android:name="noteid"
+            app:argType="string"
+            android:defaultValue="-" />
     </fragment>
 </navigation>

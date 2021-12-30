@@ -44,10 +44,6 @@ object FirebaseDBManager : BookStore {
             }
     }
 
-    override fun findBooks(bookList: MutableLiveData<List<BookModel>>): List<BookModel> {
-        TODO("Not yet implemented")
-    }
-
     override fun createBook(firebaseUser: MutableLiveData<FirebaseUser>, book: BookModel) {
         Timber.i("Firebase DB Reference : $database")
 
@@ -124,8 +120,23 @@ object FirebaseDBManager : BookStore {
                 })
     }
 
-    override fun updateNote(book: BookModel, note: NoteModel) {
-        TODO("Not yet implemented")
+    override fun findNoteById(noteid: String, bookid: String, note: MutableLiveData<NoteModel>) {
+        database.child("notes").child(bookid).child(noteid)
+            .get().addOnSuccessListener {
+                note.value = it.getValue(NoteModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
+    }
+
+    override fun updateNote(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        val noteValues = note.toMap()
+        val childUpdate : MutableMap<String, Any?> = HashMap()
+        childUpdate["notes/$bookid/$noteid"] = noteValues
+        childUpdate["user-notes/$userid/$bookid/$noteid"] = noteValues
+
+        database.updateChildren(childUpdate)
     }
 
     override fun deleteNote(userid: String, bookid: String, noteid: String) {

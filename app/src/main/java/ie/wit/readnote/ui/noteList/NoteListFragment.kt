@@ -4,10 +4,8 @@ import SwipeToDeleteCallback
 import SwipeToEditCallback
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -42,6 +40,7 @@ class NoteListFragment : Fragment(), NoteListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         _fragBinding = NoteListFragmentBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -83,6 +82,10 @@ class NoteListFragment : Fragment(), NoteListener {
         itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
 
         return root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
     }
 
     override fun onNoteClick(note: NoteModel){

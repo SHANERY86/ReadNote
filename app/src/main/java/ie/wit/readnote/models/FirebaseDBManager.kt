@@ -140,5 +140,21 @@ object FirebaseDBManager : BookStore {
         database.updateChildren(childDelete)
     }
 
+    override fun makeNoteImportant(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        val noteValues = note.toMap()
+        val childAdd = HashMap<String, Any>()
+        childAdd["/user-notes/$userid/$bookid/important-notes/$noteid"] = noteValues
+
+        database.updateChildren(childAdd)
+    }
+
+    override fun getImportantNotes(
+        userid: String,
+        bookid: String,
+        notes: MutableLiveData<ArrayList<NoteModel>>
+    ) {
+        TODO("Not yet implemented")
+    }
+
 
 }

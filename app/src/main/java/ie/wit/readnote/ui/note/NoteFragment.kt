@@ -54,17 +54,23 @@ class NoteFragment : Fragment() {
             fragBinding.addPageNumber.setText("$newVal") }
 
         fragBinding.addNote.setOnClickListener() {
+            var note = NoteModel()
             if (fragBinding.addContent.text.isNotEmpty()) {
                 val content = fragBinding.addContent.text.toString()
                 val pageNumber = fragBinding.addPageNumber.text.toString()
                 if(args.noteid != "-") {
                     noteViewModel.updateNote(loggedInViewModel.liveFirebaseUser.value!!.uid!!,args.bookid,args.noteid,noteViewModel.observableNote.value!!)
+                    note = noteViewModel.observableNote.value!!
                 }
                 else {
+                    note = NoteModel(content = content, pageNumber = pageNumber)
                 noteViewModel.makeNote(
                     loggedInViewModel.liveFirebaseUser.value?.uid!!, args.bookid,
-                    NoteModel(content = content, pageNumber = pageNumber)
+                    note
                 )}
+                if(fragBinding.nbToggle.isChecked){
+                    noteViewModel.makeNoteImportant(loggedInViewModel.liveFirebaseUser.value?.uid!!,args.bookid,args.noteid,note)
+                }
                 bookListViewModel.load()
                 imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(it.getWindowToken(), 0)

@@ -46,4 +46,14 @@ class NoteViewModel : ViewModel() {
             Timber.i("Detail update() Error : $e.message")
         }
     }
+
+    fun makeNoteImportant(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        try {
+            FirebaseDBManager.makeNoteImportant(userid, bookid, noteid, note)
+            Timber.i("Detail update() Success : $note")
+        }
+        catch (e: Exception) {
+            Timber.i("Detail update() Error : $e.message")
+        }
+    }
 }

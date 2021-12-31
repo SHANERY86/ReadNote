@@ -86,6 +86,7 @@ class NoteListFragment : Fragment(), NoteListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onNoteClick(note: NoteModel){

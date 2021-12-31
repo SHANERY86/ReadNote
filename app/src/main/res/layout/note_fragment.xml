@@ -121,13 +121,11 @@
         app:layout_constraintVertical_bias="0.6"
         />
 
-    <ToggleButton
+    <CheckBox
         android:id="@+id/nbToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="false"
-        android:textOff="@string/toggle_no"
-        android:textOn="@string/toggle_yes"
+        android:checked="@={notevm.observableNote.nb}"
         tools:layout_editor_absoluteX="257dp"
         tools:layout_editor_absoluteY="472dp"
         app:layout_constraintBottom_toBottomOf="parent"

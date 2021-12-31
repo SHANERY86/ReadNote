@@ -65,9 +65,7 @@ class NoteFragment : Fragment() {
                 else {
                     note = NoteModel(content = content, pageNumber = pageNumber, nb = fragBinding.nbToggle.isChecked)
                 noteViewModel.makeNote(
-                    loggedInViewModel.liveFirebaseUser.value?.uid!!, args.bookid,
-                    note
-                )}
+                    loggedInViewModel.liveFirebaseUser.value?.uid!!, args.bookid, note )}
                 bookListViewModel.load()
                 imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
@@ -81,6 +79,9 @@ class NoteFragment : Fragment() {
 
     private fun render() {
         fragBinding.notevm = noteViewModel
+        val note = noteViewModel.observableNote.value!!
+        fragBinding.nbToggle.isChecked = note.nb
+        Timber.i("TEST TOGGLE: ${fragBinding.nbToggle.isChecked} AND TEST NOTE NB: ${note.nb} AND TEST NOTE $note")
     }
 
     override fun onResume() {

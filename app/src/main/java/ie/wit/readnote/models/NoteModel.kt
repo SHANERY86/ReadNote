@@ -16,7 +16,7 @@ data class NoteModel(   var uid : String = "",
             "uid" to uid,
             "content" to content,
             "pageNumber" to pageNumber,
-            "NB" to nb
+            "nb" to nb
         )
     }
 }

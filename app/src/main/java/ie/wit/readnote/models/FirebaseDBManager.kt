@@ -1,12 +1,24 @@
 package ie.wit.readnote.models
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import ie.wit.readnote.firebase.FirebaseImageManager
+import ie.wit.readnote.main.readNoteApp
+import ie.wit.readnote.ui.book.BookFragmentArgs
+import org.wit.placemark.helpers.readImageFromPath
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
+import java.io.File
+
 
 object FirebaseDBManager : BookStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
+
 
     override fun findUserBooks(userid: String, bookList: MutableLiveData<ArrayList<BookModel>>) {
                 database.child("user-books").child(userid)
@@ -190,5 +202,7 @@ object FirebaseDBManager : BookStore {
                 }
             })
     }
+
+
 
 }

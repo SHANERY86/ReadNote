@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso
 import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
+import ie.wit.readnote.firebase.FirebaseImageManager
 import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.NoteModel
@@ -36,6 +37,7 @@ class BookFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var bookViewModel: BookViewModel
+    private lateinit var firebaseImageManager: FirebaseImageManager
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private val bookListViewModel : BookListViewModel by activityViewModels()
     private val args by navArgs<BookFragmentArgs>()
@@ -49,6 +51,8 @@ class BookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        app = activity?.application as readNoteApp
+        firebaseImageManager = FirebaseImageManager(app)
         _fragBinding = FragmentBookBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -100,6 +104,7 @@ class BookFragment : Fragment() {
                         title = book.title, image = book.image, notes = notes,
                         email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                         fav = fragBinding.favToggle.isChecked))
+                    firebaseImageManager.updateCoverImage(loggedInViewModel.liveFirebaseUser.value?.uid!!,book)
                     var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 }

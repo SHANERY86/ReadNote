@@ -68,10 +68,12 @@ class BookListFragment : Fragment(), BookListener {
         favButton.setOnClickListener() {
             if(!clicked){
                 favButton.setColorFilter(resources.getColor(R.color.reddish))
+                bookListViewModel.getFavouriteBooks(loggedInViewModel.liveFirebaseUser.value!!.uid)
                 clicked = true
             }
             else {
                 favButton.setColorFilter(resources.getColor(R.color.white))
+                bookListViewModel.load()
                 clicked = false
             }
         }

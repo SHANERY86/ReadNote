@@ -13,11 +13,11 @@ import timber.log.Timber
 
 class BookListViewModel : ViewModel() {
 
-    private val bookList = MutableLiveData<List<BookModel>>()
+    private val bookList = MutableLiveData<ArrayList<BookModel>>()
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
-    val observableBookList: LiveData<List<BookModel>>
+    val observableBookList: LiveData<ArrayList<BookModel>>
         get() = bookList
 
     init {
@@ -27,8 +27,16 @@ class BookListViewModel : ViewModel() {
     fun load() {
 
         try {
-            Timber.i("TEST: ${liveFirebaseUser.value?.uid!!}" )
             FirebaseDBManager.findUserBooks(liveFirebaseUser.value?.uid!!, bookList)
+        }
+        catch (e: Exception) {
+            Timber.i("Book List Load Error : ${e.message}")
+        }
+    }
+
+    fun getFavouriteBooks(userid: String) {
+        try {
+            FirebaseDBManager.getFavouriteBooks(liveFirebaseUser.value?.uid!!, bookList)
         }
         catch (e: Exception) {
             Timber.i("Book List Load Error : ${e.message}")

@@ -31,14 +31,17 @@ import ie.wit.readnote.ui.bookList.BookListFragmentDirections
 
 class NoteListFragment : Fragment(), NoteListener {
 
+    lateinit var app : readNoteApp
     private lateinit var noteListViewModel: NoteListViewModel
     private var _fragBinding: NoteListFragmentBinding? = null
     private val fragBinding get() = _fragBinding!!
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        app = activity?.application as readNoteApp
         setHasOptionsMenu(true)
     }
 

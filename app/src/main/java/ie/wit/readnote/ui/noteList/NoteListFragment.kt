@@ -21,6 +21,7 @@ import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.databinding.NoteListFragmentBinding
+import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.FirebaseDBManager
 import ie.wit.readnote.models.NoteModel
@@ -35,6 +36,11 @@ class NoteListFragment : Fragment(), NoteListener {
     private val fragBinding get() = _fragBinding!!
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

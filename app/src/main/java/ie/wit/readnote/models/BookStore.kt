@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 
 interface BookStore {
-    fun findUserBooks(userid: String, bookList: MutableLiveData<List<BookModel>>)
+    fun findUserBooks(userid: String, bookList: MutableLiveData<ArrayList<BookModel>>)
     fun findBookById(userid: String, bookid: String, book: MutableLiveData<BookModel>)
     fun createBook(fireBaseUser: MutableLiveData<FirebaseUser>, book: BookModel)
     fun updateBook(userid: String, bookid: String, book: BookModel)
@@ -14,6 +14,6 @@ interface BookStore {
     fun deleteNote(userid: String, bookid: String, noteid: String)
     fun getBookNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>)
     fun findNoteById(userid: String, bookid: String, noteid: String, note: MutableLiveData<NoteModel>)
-    fun makeNoteImportant(userid: String, bookid: String, noteid: String, note: NoteModel)
     fun getImportantNotes(userid: String, bookid: String, notes: MutableLiveData<ArrayList<NoteModel>>)
+    fun getFavouriteBooks(userid: String, books: MutableLiveData<ArrayList<BookModel>>)
 }

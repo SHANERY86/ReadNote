@@ -80,7 +80,7 @@ class BookFragment : Fragment() {
         fragBinding.addBook.setText(R.string.button_saveBook)
         fragBinding.chooseImage.setText(R.string.button_changeCover)
         val uriString = bookViewModel.observableBook.value!!.image
-        fragBinding.bookCover.setImageURI(uriString.toUri())
+        Picasso.get().load(uriString.toUri()).resize(300,450).into(fragBinding.bookCover)
         fragBinding.deleteBook.visibility = View.VISIBLE
     }
 
@@ -96,7 +96,10 @@ class BookFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 else {
-                    bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(title = book.title, image = book.image, notes = notes, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                    bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,BookModel(
+                        title = book.title, image = book.image, notes = notes,
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                        fav = fragBinding.favToggle.isChecked))
                     var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 }
@@ -150,6 +153,7 @@ class BookFragment : Fragment() {
                             fragBinding.imageHolder.setText(uriString)
                             Picasso.get()
                                 .load(book.image)
+                                .resize(300,450)
                                 .into(fragBinding.bookCover)
                         } // end of if
                     }

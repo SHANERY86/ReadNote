@@ -10,7 +10,8 @@ data class BookModel(var uid : String? = "",
                      var title: String = "",
                      var image: String = "",
                      var notes: ArrayList<NoteModel> = ArrayList(),
-                    var email: String? = "joe@bloggs.com") : Parcelable
+                    var email: String? = "joe@bloggs.com",
+                    var fav: Boolean = false) : Parcelable
 {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -18,7 +19,8 @@ data class BookModel(var uid : String? = "",
             "uid" to uid,
             "title" to title,
             "image" to image,
-            "email" to email
+            "email" to email,
+            "fav" to fav
         )
     }
 }

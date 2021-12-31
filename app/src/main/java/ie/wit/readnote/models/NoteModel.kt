@@ -7,15 +7,16 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class NoteModel(   var uid : String = "",
                         var content: String = "",
-                        var pageNumber: String = ""
-//                        var location: LocationModel? = null
+                        var pageNumber: String = "",
+                        var nb: Boolean = false
 ) : Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
             "content" to content,
-            "pageNumber" to pageNumber
+            "pageNumber" to pageNumber,
+            "NB" to nb
         )
     }
 }

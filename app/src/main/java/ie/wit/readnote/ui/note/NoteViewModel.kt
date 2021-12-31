@@ -16,9 +16,9 @@ class NoteViewModel : ViewModel() {
         get() = note
         set(value) {note.value = value.value}
 
-    fun getNote(noteid: String, bookid: String) {
+    fun getNote(userid: String, bookid: String, noteid: String,) {
         try {
-            FirebaseDBManager.findNoteById(noteid, bookid, note)
+            FirebaseDBManager.findNoteById(userid, bookid, noteid, note)
             Timber.i("Detail getNote() Success : ${
                 note.value.toString()}")
         }
@@ -40,6 +40,16 @@ class NoteViewModel : ViewModel() {
     fun updateNote(userid: String, bookid: String, noteid: String, note: NoteModel) {
         try {
             FirebaseDBManager.updateNote(userid,bookid,noteid,note)
+            Timber.i("Detail update() Success : $note")
+        }
+        catch (e: Exception) {
+            Timber.i("Detail update() Error : $e.message")
+        }
+    }
+
+    fun makeNoteImportant(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        try {
+            FirebaseDBManager.makeNoteImportant(userid, bookid, noteid, note)
             Timber.i("Detail update() Success : $note")
         }
         catch (e: Exception) {

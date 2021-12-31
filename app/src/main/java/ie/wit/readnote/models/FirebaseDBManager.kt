@@ -57,7 +57,6 @@ object FirebaseDBManager : BookStore {
         val bookValues = book.toMap()
 
         val childAdd = HashMap<String, Any>()
-        childAdd["/books/$key"] = bookValues
         childAdd["/user-books/$uid/$key"] = bookValues
 
         database.updateChildren(childAdd)
@@ -66,7 +65,6 @@ object FirebaseDBManager : BookStore {
     override fun updateBook(userid: String, bookid: String, book: BookModel) {
         val bookValues = book.toMap()
         val childUpdate : MutableMap<String, Any?> = HashMap()
-        childUpdate["books/$bookid"] = bookValues
         childUpdate["user-books/$userid/$bookid"] = bookValues
 
         database.updateChildren(childUpdate)
@@ -74,9 +72,7 @@ object FirebaseDBManager : BookStore {
 
     override fun deleteBook(userid: String, bookid: String) {
         val childDelete : MutableMap<String, Any?> = HashMap()
-        childDelete["/books/$bookid"] = null
         childDelete["/user-books/$userid/$bookid"] = null
-        childDelete["/notes/$bookid"] = null
         childDelete["/user-notes/$userid/$bookid"] = null
 
         database.updateChildren(childDelete)
@@ -91,7 +87,6 @@ object FirebaseDBManager : BookStore {
         note.uid = key
         val noteValues = note.toMap()
         val childAdd = HashMap<String, Any>()
-        childAdd["/notes/$bookid/$key"] = noteValues
         childAdd["/user-notes/$userid/$bookid/$key"] = noteValues
 
         database.updateChildren(childAdd)
@@ -120,8 +115,8 @@ object FirebaseDBManager : BookStore {
                 })
     }
 
-    override fun findNoteById(noteid: String, bookid: String, note: MutableLiveData<NoteModel>) {
-        database.child("notes").child(bookid).child(noteid)
+    override fun findNoteById(userid: String, bookid: String, noteid: String, note: MutableLiveData<NoteModel>) {
+        database.child("user-notes").child(userid).child(bookid).child(noteid)
             .get().addOnSuccessListener {
                 note.value = it.getValue(NoteModel::class.java)
                 Timber.i("firebase Got value ${it.value}")
@@ -133,7 +128,6 @@ object FirebaseDBManager : BookStore {
     override fun updateNote(userid: String, bookid: String, noteid: String, note: NoteModel) {
         val noteValues = note.toMap()
         val childUpdate : MutableMap<String, Any?> = HashMap()
-        childUpdate["notes/$bookid/$noteid"] = noteValues
         childUpdate["user-notes/$userid/$bookid/$noteid"] = noteValues
 
         database.updateChildren(childUpdate)
@@ -141,10 +135,44 @@ object FirebaseDBManager : BookStore {
 
     override fun deleteNote(userid: String, bookid: String, noteid: String) {
         val childDelete : MutableMap<String, Any?> = HashMap()
-        childDelete["/notes/$bookid/$noteid"] = null
         childDelete["/user-notes/$userid/$bookid/$noteid"] = null
 
         database.updateChildren(childDelete)
+    }
+
+    override fun makeNoteImportant(userid: String, bookid: String, noteid: String, note: NoteModel) {
+        val noteValues = note.toMap()
+        val childAdd = HashMap<String, Any>()
+        childAdd["/user-notes/$userid/$bookid/important-notes/$noteid"] = noteValues
+
+        database.updateChildren(childAdd)
+    }
+
+    override fun getImportantNotes(
+        userid: String,
+        bookid: String,
+        notes: MutableLiveData<ArrayList<NoteModel>>
+    ) {
+        database.child("user-notes").child(userid).child(bookid).orderByChild("NB").equalTo(true)
+            .addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase readNote error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<NoteModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        Timber.i("TESTING NB NOTES: $it")
+                        val note = it.getValue(NoteModel::class.java)
+                        localList.add(note!!)
+                    }
+                    database.child("user-books").child(userid)
+                        .removeEventListener(this)
+
+                    notes.value = localList
+                }
+            })
     }
 
 

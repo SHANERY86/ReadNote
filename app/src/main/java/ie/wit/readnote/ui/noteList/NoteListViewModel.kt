@@ -22,8 +22,18 @@ class NoteListViewModel : ViewModel() {
     fun getNotes(userid:String,bookid: String) {
         try {
             //NoteManager.findAll(liveFirebaseUser.value?.email!!, noteList)
-            FirebaseDBManager.getBookNotes(userid, bookid,
-                noteList)
+            FirebaseDBManager.getBookNotes(userid, bookid, noteList)
+            Timber.i("NoteList Load Success : ${noteList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("NoteList Load Error : $e.message")
+        }
+    }
+
+    fun getImportantNotes(userid: String, bookid: String) {
+        try {
+            //NoteManager.findAll(liveFirebaseUser.value?.email!!, noteList)
+            FirebaseDBManager.getImportantNotes(userid, bookid, noteList)
             Timber.i("NoteList Load Success : ${noteList.value.toString()}")
         }
         catch (e: Exception) {

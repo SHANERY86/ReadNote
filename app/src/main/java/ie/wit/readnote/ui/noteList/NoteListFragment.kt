@@ -4,10 +4,10 @@ import SwipeToDeleteCallback
 import SwipeToEditCallback
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
+import android.widget.Switch
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,25 +23,37 @@ import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.readnote.R
 import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.databinding.NoteListFragmentBinding
+import ie.wit.readnote.main.readNoteApp
 import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.FirebaseDBManager
 import ie.wit.readnote.models.NoteModel
 import ie.wit.readnote.ui.book.BookFragmentArgs
 import ie.wit.readnote.ui.book.BookViewModel
 import ie.wit.readnote.ui.bookList.BookListFragmentDirections
+import timber.log.Timber
 
 class NoteListFragment : Fragment(), NoteListener {
 
+    lateinit var app : readNoteApp
     private lateinit var noteListViewModel: NoteListViewModel
     private var _fragBinding: NoteListFragmentBinding? = null
     private val fragBinding get() = _fragBinding!!
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private lateinit var switch : MenuItem
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        app = activity?.application as readNoteApp
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         _fragBinding = NoteListFragmentBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -85,6 +97,25 @@ class NoteListFragment : Fragment(), NoteListener {
         return root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        switch = menu.findItem(R.id.nbswitch_action_bar)
+        switch.setActionView(R.layout.nb_switch)
+        val sw = switch.actionView.findViewById<Switch>(R.id.nb_switch)
+        sw.setOnCheckedChangeListener { _, isChecked ->
+            Timber.i("toggle checked $isChecked")
+            if(isChecked) {
+                noteListViewModel.getImportantNotes(
+                    loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
+            }
+            else {
+                noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
+            }
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onNoteClick(note: NoteModel){
             val action = NoteListFragmentDirections.actionNoteListFragmentToNoteFragment(args.bookid,note.uid)
             findNavController().navigate(action)
@@ -94,11 +125,10 @@ class NoteListFragment : Fragment(), NoteListener {
         fragBinding.recyclerView.adapter = NoteAdapter(notes, this)
     }
 
+
     override fun onResume() {
         super.onResume()
-            noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!,args.bookid)
+            noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
     }
-
-
 
 }

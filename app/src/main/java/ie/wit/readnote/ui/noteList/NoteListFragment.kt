@@ -5,6 +5,8 @@ import SwipeToEditCallback
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
+import android.widget.Switch
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -28,6 +30,7 @@ import ie.wit.readnote.models.NoteModel
 import ie.wit.readnote.ui.book.BookFragmentArgs
 import ie.wit.readnote.ui.book.BookViewModel
 import ie.wit.readnote.ui.bookList.BookListFragmentDirections
+import timber.log.Timber
 
 class NoteListFragment : Fragment(), NoteListener {
 
@@ -37,6 +40,7 @@ class NoteListFragment : Fragment(), NoteListener {
     private val fragBinding get() = _fragBinding!!
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private lateinit var switch : MenuItem
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +99,12 @@ class NoteListFragment : Fragment(), NoteListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu, menu)
+        switch = menu.findItem(R.id.nbswitch_action_bar)
+        switch.setActionView(R.layout.nb_switch)
+        val sw = switch.actionView.findViewById<Switch>(R.id.nb_switch)
+        sw.setOnCheckedChangeListener { _, isChecked ->
+            Timber.i("toggle checked $isChecked")
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -109,7 +119,7 @@ class NoteListFragment : Fragment(), NoteListener {
 
     override fun onResume() {
         super.onResume()
-            noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!,args.bookid)
+            noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
     }
 
 

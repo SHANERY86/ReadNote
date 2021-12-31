@@ -153,7 +153,26 @@ object FirebaseDBManager : BookStore {
         bookid: String,
         notes: MutableLiveData<ArrayList<NoteModel>>
     ) {
-        TODO("Not yet implemented")
+        database.child("user-notes").child(userid).child(bookid).orderByChild("NB").equalTo(true)
+            .addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase readNote error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<NoteModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        Timber.i("TESTING NB NOTES: $it")
+                        val note = it.getValue(NoteModel::class.java)
+                        localList.add(note!!)
+                    }
+                    database.child("user-books").child(userid)
+                        .removeEventListener(this)
+
+                    notes.value = localList
+                }
+            })
     }
 
 

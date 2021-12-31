@@ -45,4 +45,5 @@
     <string name="toggle_yes">YES</string>
     <string name="toggle_no">NO</string>
     <string name="mark_important">Mark as Important</string>
+    <string name="switch_text_nb">NB</string>
 </resources>

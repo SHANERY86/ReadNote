@@ -6,30 +6,23 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Switch
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ie.wit.donationx.adapters.BookAdapter
 import ie.wit.donationx.adapters.NoteAdapter
 import ie.wit.donationx.adapters.NoteListener
 import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.readnote.R
-import ie.wit.readnote.databinding.FragmentBookBinding
 import ie.wit.readnote.databinding.NoteListFragmentBinding
 import ie.wit.readnote.main.readNoteApp
-import ie.wit.readnote.models.BookModel
 import ie.wit.readnote.models.FirebaseDBManager
 import ie.wit.readnote.models.NoteModel
 import ie.wit.readnote.ui.book.BookFragmentArgs
-import ie.wit.readnote.ui.book.BookViewModel
-import ie.wit.readnote.ui.bookList.BookListFragmentDirections
 import timber.log.Timber
 
 class NoteListFragment : Fragment(), NoteListener {
@@ -98,7 +91,7 @@ class NoteListFragment : Fragment(), NoteListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.note_list_menu, menu)
         switch = menu.findItem(R.id.nbswitch_action_bar)
         switch.setActionView(R.layout.nb_switch)
         val sw = switch.actionView.findViewById<Switch>(R.id.nb_switch)

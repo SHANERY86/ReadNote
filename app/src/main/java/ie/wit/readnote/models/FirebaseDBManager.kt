@@ -153,7 +153,7 @@ object FirebaseDBManager : BookStore {
         bookid: String,
         notes: MutableLiveData<ArrayList<NoteModel>>
     ) {
-        database.child("user-notes").child(userid).child(bookid).orderByChild("NB").equalTo(true)
+        database.child("user-notes").child(userid).child(bookid).orderByChild("nb").equalTo(true)
             .addValueEventListener(object: ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     Timber.i("Firebase readNote error : ${error.message}")
@@ -174,6 +174,5 @@ object FirebaseDBManager : BookStore {
                 }
             })
     }
-
 
 }

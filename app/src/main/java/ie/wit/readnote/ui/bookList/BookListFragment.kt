@@ -2,6 +2,8 @@ package ie.wit.readnote.ui.bookList
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageButton
+import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -57,6 +59,24 @@ class BookListFragment : Fragment(), BookListener {
         fragBinding.recyclerView.adapter = BookAdapter(bookList, this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.book_list_menu, menu)
+        val fav = menu.findItem(R.id.favbook)
+        fav.setActionView(R.layout.fav_button)
+        val favButton = fav.actionView.findViewById<ImageButton>(R.id.favbookButton)
+        var clicked = false
+        favButton.setOnClickListener() {
+            if(!clicked){
+                favButton.setColorFilter(resources.getColor(R.color.reddish))
+                clicked = true
+            }
+            else {
+                favButton.setColorFilter(resources.getColor(R.color.white))
+                clicked = false
+            }
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

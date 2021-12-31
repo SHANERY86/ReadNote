@@ -104,7 +104,15 @@ class NoteListFragment : Fragment(), NoteListener {
         val sw = switch.actionView.findViewById<Switch>(R.id.nb_switch)
         sw.setOnCheckedChangeListener { _, isChecked ->
             Timber.i("toggle checked $isChecked")
+            if(isChecked) {
+                noteListViewModel.getImportantNotes(
+                    loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
+            }
+            else {
+                noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
+            }
         }
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -117,11 +125,10 @@ class NoteListFragment : Fragment(), NoteListener {
         fragBinding.recyclerView.adapter = NoteAdapter(notes, this)
     }
 
+
     override fun onResume() {
         super.onResume()
             noteListViewModel.getNotes(loggedInViewModel.liveFirebaseUser?.value!!.uid!!, args.bookid)
     }
-
-
 
 }

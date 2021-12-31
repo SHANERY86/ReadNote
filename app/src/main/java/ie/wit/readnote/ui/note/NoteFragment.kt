@@ -79,9 +79,6 @@ class NoteFragment : Fragment() {
 
     private fun render() {
         fragBinding.notevm = noteViewModel
-        val note = noteViewModel.observableNote.value!!
-        fragBinding.nbToggle.isChecked = note.nb
-        Timber.i("TEST TOGGLE: ${fragBinding.nbToggle.isChecked} AND TEST NOTE NB: ${note.nb} AND TEST NOTE $note")
     }
 
     override fun onResume() {

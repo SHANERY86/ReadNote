@@ -2,10 +2,12 @@ package ie.wit.readnote.ui.noteList
 
 import SwipeToDeleteCallback
 import SwipeToEditCallback
+import android.app.ActionBar
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Switch
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -34,6 +36,7 @@ class NoteListFragment : Fragment(), NoteListener {
     private val args by navArgs<BookFragmentArgs>()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private lateinit var switch : MenuItem
+    private lateinit var actionBar: ActionBar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

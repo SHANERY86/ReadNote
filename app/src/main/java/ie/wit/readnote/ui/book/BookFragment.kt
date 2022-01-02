@@ -52,7 +52,7 @@ class BookFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         app = activity?.application as readNoteApp
-        firebaseImageManager = FirebaseImageManager(app)
+        firebaseImageManager = FirebaseImageManager()
         _fragBinding = FragmentBookBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -104,7 +104,6 @@ class BookFragment : Fragment() {
                         title = book.title, image = book.image, notes = notes,
                         email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                         fav = fragBinding.favToggle.isChecked))
-                    firebaseImageManager.updateCoverImage(loggedInViewModel.liveFirebaseUser.value?.uid!!,book)
                     var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(it.getWindowToken(), 0)
                 }

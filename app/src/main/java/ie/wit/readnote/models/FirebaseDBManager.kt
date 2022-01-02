@@ -18,7 +18,7 @@ import java.io.File
 
 object FirebaseDBManager : BookStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
-
+    private lateinit var firebaseImageManager: FirebaseImageManager
 
     override fun findUserBooks(userid: String, bookList: MutableLiveData<ArrayList<BookModel>>) {
                 database.child("user-books").child(userid)
@@ -57,6 +57,7 @@ object FirebaseDBManager : BookStore {
     }
 
     override fun createBook(firebaseUser: MutableLiveData<FirebaseUser>, book: BookModel) {
+        firebaseImageManager = FirebaseImageManager()
         Timber.i("Firebase DB Reference : $database")
 
         val uid = firebaseUser.value!!.uid
@@ -72,6 +73,7 @@ object FirebaseDBManager : BookStore {
         childAdd["/user-books/$uid/$key"] = bookValues
 
         database.updateChildren(childAdd)
+        firebaseImageManager.storeCoverImage(firebaseUser.value!!.uid,book)
     }
 
     override fun updateBook(userid: String, bookid: String, book: BookModel) {
